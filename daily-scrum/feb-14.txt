@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: Worked on part A of Lab 6
+What was in my way: Had an error configuring the cypress environment supportFile but was able to fix that by adding this in the cypress config file: `supportFile: false`
+What will I do today: Will continue to work on finishing part B of Lab 6 due friday and working on new features
+
+Athena: 
+
+What did I do yesterday: 
+What was in my way: 
+What will I do today: 
+
+Doruk:
+
+What did I do yesterday: 
+What was in my way: 
+What will I do today: 
