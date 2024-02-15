@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: Sprint planning, assessing each task and which tickets will be assigned to which members
+What was in my way: No blockers
+What will I do today: Working on stories and features for the app. Helping finish up lab.
+
+Athena: 
+
+What did I do yesterday: Working on spring planning, assessing each tasks and which tickets will be assigned to which members.
+What was in my way: No blockers
+What will I do today: Working on stories and features for the app. Helping finish up lab.
+
+Doruk:
+
+What did I do yesterday: Working on lab 5 - working to deploy app on netlify
+What was in my way: No blockers
+What will I do today: Finishing up lab and doing sprint planning. Working on stories and features for the app
