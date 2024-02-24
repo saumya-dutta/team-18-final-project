@@ -21,7 +21,7 @@ export default function Footer() {
     return (
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
             <BottomNavigation
-                sx={{ width: 500 }}
+                sx={{ width: 1500 }}
                 showLabels
                 value={value}
             // onChange={(event, newValue) => {

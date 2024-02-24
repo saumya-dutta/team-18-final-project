@@ -1,7 +1,7 @@
 import React from 'react';
 // import Review from './Review';
 import Footer from '../Footer';
-import SignIn from '../SignIn';
+import AuthForm from '../SignIn';
 import Food from '../Food'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Lan } from '@mui/icons-material';
@@ -10,7 +10,8 @@ import { Lan } from '@mui/icons-material';
 function App() {
   return (
     <div>
-      {/* <SignIn></SignIn> */}
+      {/* <AuthForm></AuthForm> */}
+      
       
 
       <Router>

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import Box from '@mui/material/Box';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -11,25 +10,22 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
 
-
-function createData(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday) {
-    return { name, monday, tuesday, wednesday, thursday, friday, saturday, sunday };
-}
-
-const rows = [
-    createData('Breakfast', 159, 6.0, 24, 4.0, 1, 1, 1),
-    createData('Lunch', 237, 9.0, 37, 4.3, 1, 1, 1),
-    createData('Dinner', 262, 16.0, 24, 6.01, 1, 1, 1),
-    //   createData('Cupcake', 305, 3.7, 67, 4.3),
-    //   createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+const columns = ['Breakfast', 'Lunch', 'Dinner'];
 
 // function TableInput() {
 //     return (
-//         <div>
-//             <input> add </input>
-//         </div>
+//         <TableCell align="right">
+//             <Stack spacing={2}>
+//                 <div>
+//                     <TextField id="filled-basic" label="Carbs(g)" variant="filled" size="small" style={{ width: 100 }} />
+//                     <TextField id="filled-basic" label="Fats(g)" variant="filled" size="small" style={{ width: 100 }} />
+//                     <TextField id="filled-basic" label="Proteins(g)" variant="filled" size="small" style={{ width: 100 }} />
+//                 </div>
+
+//             </Stack>
+//         </TableCell>
 //     )
+
 // }
 export default function FoodTable() {
     return (
@@ -50,41 +46,93 @@ export default function FoodTable() {
                     </TableHead>
 
                     <TableBody>
-                        {rows.map((row) => (
+                        {columns.map((cols, index) => (
                             <TableRow
-                                key={row.name}
+                                key={cols}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    {cols}
+                                </TableCell>
+
+                                <TableCell align="right">
+                                    <Stack spacing={2}>
+                                        <div>
+                                            <TextField id="filled-basic" label="Carbs(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Fats(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Proteins(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                        </div>
+
+                                    </Stack>
+                                </TableCell>
+
+                                <TableCell align="right">
+                                    <Stack spacing={2}>
+                                        <div>
+                                            <TextField id="filled-basic" label="Carbs(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Fats(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Proteins(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                        </div>
+
+                                    </Stack>
                                 </TableCell>
                                 <TableCell align="right">
                                     <Stack spacing={2}>
                                         <div>
-                                        {/* <input name="carb"></input>
-                                        <input name="fats"></input>
-                                        <input name="proteins"></input> */}
-                                        <TextField id="filled-basic" label="Carbs" variant="filled" size="small" style={{ marginBottom: '10px' }}/>
-                                        <TextField id="filled-basic" label="Fats" variant="filled" size="small" style={{ marginBottom: '10px' }}/>
-                                        <TextField id="filled-basic" label="Proteins" variant="filled" size="small" style={{ marginBottom: '10px' }}/>
+                                            <TextField id="filled-basic" label="Carbs(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Fats(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Proteins(g)" variant="filled" size="small" style={{ width: 100 }} />
                                         </div>
 
                                     </Stack>
-                                    {/* <TextField id="filled-basic" label="Carbs" variant="filled" size="small" style={{ marginBottom: '10px' }}/>
-                                    <TextField id="filled-basic" label="Fats" variant="filled" size="small" style={{ marginBottom: '10px' }}/> */}
-                                    {/* <button>test </button> */}
                                 </TableCell>
-                                <TableCell align="right"><button>test </button></TableCell>
-                                <TableCell align="right"><button>test </button></TableCell>
-                                <TableCell align="right"><button>test </button></TableCell>
-                                <TableCell align="right"><button>test </button></TableCell>
-                                <TableCell align="right"><button>test </button></TableCell>
-                                <TableCell align="right"><button>test </button></TableCell>
+                                <TableCell align="right">
+                                    <Stack spacing={2}>
+                                        <div>
+                                            <TextField id="filled-basic" label="Carbs(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Fats(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Proteins(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                        </div>
+
+                                    </Stack>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Stack spacing={2}>
+                                        <div>
+                                            <TextField id="filled-basic" label="Carbs(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Fats(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Proteins(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                        </div>
+
+                                    </Stack>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Stack spacing={2}>
+                                        <div>
+                                            <TextField id="filled-basic" label="Carbs(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Fats(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Proteins(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                        </div>
+
+                                    </Stack>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Stack spacing={2}>
+                                        <div>
+                                            <TextField id="filled-basic" label="Carbs(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Fats(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                            <TextField id="filled-basic" label="Proteins(g)" variant="filled" size="small" style={{ width: 100 }} />
+                                        </div>
+
+                                    </Stack>
+                                </TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+
             <button>Clear</button>
         </div>
 
