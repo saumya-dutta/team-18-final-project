@@ -1,22 +1,30 @@
 import app from 'firebase/app';
-import 'firebase/auth';
+import auth from 'firebase/auth';
+
 
 const firebaseConfig = {
-  //Enter your firebase API details
-  };
+  apiKey: "AIzaSyCYrh2HvJPPUBP9C6UVdolvrfQnKDsQm0k",
+  authDomain: "fitness-app-28b68.firebaseapp.com",
+  projectId: "fitness-app-28b68",
+  storageBucket: "fitness-app-28b68.appspot.com",
+  messagingSenderId: "178228203496",
+  appId: "1:178228203496:web:9f5a1c5a7df0cdc410de5d",
+  measurementId: "G-ERVQXB72QL"
+};
+
 class Firebase {
   constructor() {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
   }
-  
+
   // *** Auth API ***
 
   doCreateUserWithEmailAndPassword = (email, password) =>
-  this.auth.createUserWithEmailAndPassword(email, password);
+    this.auth.createUserWithEmailAndPassword(email, password);
 
   doSignInWithEmailAndPassword = (email, password) =>
-  this.auth.signInWithEmailAndPassword(email, password);
+    this.auth.signInWithEmailAndPassword(email, password);
 
   doSignOut = () => this.auth.signOut();
 
