@@ -4,7 +4,7 @@ import Footer from '../Footer';
 import AuthForm from '../SignIn';
 import Food from '../Food'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Lan } from '@mui/icons-material';
+//import { Lan } from '@mui/icons-material';
 
 
 function App() {
