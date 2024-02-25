@@ -1,12 +1,5 @@
-import React from 'react';
-import FitnessGoal from './FitnessGoal'; // Adjust the path as needed
+// activity/index.js
 
-const Activity = () => {
-    return (
-        <div>
-            <FitnessGoal />
-        </div>
-    );
-};
+import FitnessGoals from './fitnessGoal';
 
-export default Activity;
+export { FitnessGoals };

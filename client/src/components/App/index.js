@@ -5,6 +5,8 @@ import AuthForm from '../SignIn';
 import Food from '../Food'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 //import { Lan } from '@mui/icons-material';
+import { FitnessGoals } from './activity'; // Adjust the path as necessary
+
 
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
             <Route exact path="/Food" element={<Food />} />
             <Route exact path="/Activity" element={<Footer />} />
             <Route exact path="/Profile" element={<Footer />} />
+            <Route exact path="/Activity" element={<FitnessGoals />} />
 
           </Routes>
         </div>
@@ -32,5 +35,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
