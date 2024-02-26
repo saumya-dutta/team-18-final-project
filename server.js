@@ -1,59 +1,59 @@
-import mysql from 'mysql';
-import config from './config.js';
-import fetch from 'node-fetch';
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import bodyParser from 'body-parser';
-import response from 'express';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { Pool } = require('pg');
 
 const app = express();
-const port = process.env.PORT || 5000;
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+const PORT = process.env.PORT || 3001;
 
-app.use(express.static(path.join(__dirname, "client/build")));
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 
-// API to read movies from the database
-app.post('/api/getMovies', (req, res) => {
-	let connection = mysql.createConnection(config);
-
-	const sql = `SELECT id, name, year, quality FROM movies`;
-
-	connection.query(sql, (error, results, fields) => {
-		if (error) {
-			return console.error(error.message);
-		}
-		let string = JSON.stringify(results);
-		res.send({ express: string });
-	});
-	connection.end();
+// PostgreSQL pool connection
+const pool = new Pool({
+  connectionString: 'Your_Database_Connection_String_Here',
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-// API to add a review to the database
-app.post('/api/addReview', (req, res) => {
-	const { userID, movieID, reviewTitle, reviewContent, reviewScore } = req.body;
-
-	let connection = mysql.createConnection(config);
-
-	const sql = `INSERT INTO Review (userID, movieID, reviewTitle, reviewContent, reviewScore) 
-				 VALUES (?, ?, ?, ?, ?)`;
-
-	const data = [userID, movieID, reviewTitle, reviewContent, reviewScore];
-
-	connection.query(sql, data, (error, results, fields) => {
-		if (error) {
-			console.error("Error adding review:", error.message);
-			return res.status(500).json({ error: "Error adding review to the database" });
-		}
-
-		return res.status(200).json({ success: true });
-	});
-	connection.end();
+// Test API endpoint
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
 
+// Endpoint to add a fitness goal
+app.post('/addFitnessGoal', async (req, res) => {
+  try {
+    const { userId, goal, target, deadline } = req.body;
+    const newGoal = await pool.query(
+      'INSERT INTO fitness_goals (user_id, goal, target, deadline) VALUES ($1, $2, $3, $4) RETURNING *',
+      [userId, goal, target, deadline]
+    );
+    res.json(newGoal.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
-app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
+// Endpoint to update profile information
+app.post('/updateProfile', async (req, res) => {
+  try {
+    const { userId, firstName, lastName, preferredName, userName, gender, country, occupation } = req.body;
+    const updatedProfile = await pool.query(
+      'UPDATE user_profiles SET first_name = $2, last_name = $3, preferred_name = $4, user_name = $5, gender = $6, country = $7, occupation = $8 WHERE user_id = $1 RETURNING *',
+      [userId, firstName, lastName, preferredName, userName, gender, country, occupation]
+    );
+    res.json(updatedProfile.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
