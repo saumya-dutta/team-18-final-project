@@ -4,6 +4,8 @@ import AuthForm from '../SignIn';
 import Food from '../Food';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FitnessGoals from '../Activity';
+import Profile from '../Profile';
+
 
 function App() {
   return (
@@ -14,8 +16,10 @@ function App() {
           <Route exact path="/" element={<div>Main Page Content Here</div>} /> 
           <Route path="/Food" element={<Food />} />
           <Route path="/Activity" element={<FitnessGoals />} />
-          <Route path="/Profile" element={<div>Profile Page Content Here</div>} /> 
+          {/* <Route path="/Profile" element={<div>Profile Page Content Here</div>} />  */}
           <Route path="/Activity" element={<FitnessGoals />} />
+          <Route path="/Profile" element={<Profile />} />
+
 
         </Routes>
         

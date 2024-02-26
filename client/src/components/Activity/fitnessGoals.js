@@ -71,11 +71,11 @@ return (
     </Typography>
     <form onSubmit={handleSubmit} sx={{ marginTop: 4 }}>
       <FormControl fullWidth margin="normal" variant="outlined" sx={{ marginBottom: 3}}>
-        <InputLabel id="predefined-goals-label">Predefined Goals</InputLabel>
+        <InputLabel id="predefined-goals-label">Select Your Goal</InputLabel>
         <Select
           labelId="predefined-goals-label"
           value={goal}
-          label="Predefined Goals"
+          label="Select Your Goal"
           onChange={handleGoalChange}
         >
           {predefinedGoals.map((goalOption) => (
