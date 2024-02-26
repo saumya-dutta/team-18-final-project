@@ -1,43 +1,18 @@
-import app from 'firebase/app';
-import 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth"; // Import for Firebase Authentication
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCYrh2HvJPPUBP9C6UVdolvrfQnKDsQm0k",
-  authDomain: "fitness-app-28b68.firebaseapp.com",
-  projectId: "fitness-app-28b68",
-  storageBucket: "fitness-app-28b68.appspot.com",
-  messagingSenderId: "178228203496",
-  appId: "1:178228203496:web:9f5a1c5a7df0cdc410de5d",
-  measurementId: "G-ERVQXB72QL"
+  //  Firebase configuration
+  apiKey: "AIzaSyDnq7WRlnaQTwUgJUOmSqvJGtWiTgIFec0",
+  authDomain: "horizons-e72ef.firebaseapp.com",
+  projectId: "horizons-e72ef",
+  storageBucket: "horizons-e72ef.appspot.com",
+  messagingSenderId: "323869939208",
+  appId: "1:323869939208:web:35178ea02ac5a24101e3bd"
 };
 
-class Firebase {
-  constructor() {
-    app.initializeApp(firebaseConfig);
-    this.auth = app.auth();
-  }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app); // Initialize Firebase Authentication
 
-  // *** Auth API ***
-
-  doCreateUserWithEmailAndPassword = (email, password) =>
-    this.auth.createUserWithEmailAndPassword(email, password);
-
-  doSignInWithEmailAndPassword = (email, password) =>
-    this.auth.signInWithEmailAndPassword(email, password);
-
-  doSignOut = () => this.auth.signOut();
-
-  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
-
-  doPasswordUpdate = password =>
-    this.auth.currentUser.updatePassword(password);
-
-  doGetIdToken = (bool) => {
-    return this.auth.currentUser.getIdToken(/* forceRefresh */ bool);
-  }
-
-  doGetUserByEmail = email => this.auth.getUserByEmail(email);
-
-}
-
-export default Firebase;
+export default app;
+export { auth };
