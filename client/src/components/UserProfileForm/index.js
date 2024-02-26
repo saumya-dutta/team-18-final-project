@@ -103,7 +103,7 @@ function UserProfileForm() {
       onChange={handleChange}
       displayEmpty
     >
-      <MenuItem value=""><em>None</em></MenuItem>
+      
       <MenuItem value="Vegetarian">Vegetarian</MenuItem>
       <MenuItem value="Vegan">Vegan</MenuItem>
       <MenuItem value="Gluten-Free">Gluten-Free</MenuItem>

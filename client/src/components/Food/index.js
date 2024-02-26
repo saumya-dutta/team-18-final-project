@@ -1,13 +1,16 @@
-import * as React from 'react';
+import React from 'react';
 import FoodTable from './FoodPage';
 import WaterInput from './WaterInput';
-import Stack from '@mui/material/Stack';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../theme';
 
-export default function Food(){
-    return (
-        <div>
-            <FoodTable/>
-            <WaterInput/>
-        </div>
-    )
+export default function Food() {
+  return (
+    <ThemeProvider theme={theme}>
+      <div>
+        <FoodTable />
+        <WaterInput />
+      </div>
+    </ThemeProvider>
+  );
 }

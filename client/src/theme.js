@@ -3,22 +3,19 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#556cd6',
+      main: '#556cd6', // Example primary color
     },
-    
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          '&:focus': {
-            boxShadow: '0 0 0 2px rgba(85, 108, 214, 0.4)',
-          },
-        },
-      },
+    secondary: {
+      main: '#19857b', // Example secondary color
     },
-    
+    error: {
+      main: '#ff1744',
+    },
+    background: {
+      default: '#f5f5f5',
+    },
   },
+  // Add other theme customizations here
 });
 
 export default theme;
