@@ -7,6 +7,7 @@ import Footer from '../Footer';
 import Food from '../Food';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme.js';
+import FitnessGoals from '../Activity';
 import UserProfileForm from '../UserProfileForm';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
               <>
                 <Route path="/" element={<Navigate replace to="/Food" />} />
                 <Route path="/Food" element={<Food />} />
+                <Route path="/Activity" element={<FitnessGoals />} />
                 <Route path="/user-profile" element={<UserProfileForm />} />
                 {/* more branches will be added */}
               </>
