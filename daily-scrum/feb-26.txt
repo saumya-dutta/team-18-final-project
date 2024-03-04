@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: worked on the jest and E2E tests for our project. Worked on the diet goal page (front-end)
+What was in my way: adding in an external API
+What will I do today: wrap up the tests, make sure all tests are passing, screen record for the deliverbe.
+
+Athena: 
+
+What did I do yesterday: worked on the front end and UI of our web app. Worked on the fitness goal page functionality, and the sign up page.
+What was in my way: incomplete backend, could not make the changes saved to the databese
+What will I do today: complete working on refactoring the code, commiting all the changes to github and submit the Sprint 1
+
+Doruk:
+
+What did I do yesterday: worked on the sign-up page, recieve email confirnmation to register to the app
+What was in my way: backend: lack of a third party API
+What will I do today: working on the jest tests, E2E tests and helped with the user interface of the web app. start brainstorming backend logic
