@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: Worked on fixing the backend issues we had with the APIs and made the app look better based on what the team suggested.
+What was in my way: Had some trouble getting the APIs to work right with our backend.
+What will I do today: I'll keep fixing the API issues and make more UI improvements.
+
+Athena: 
+
+What did I do yesterday: Helped sort out the backend problems, especially with the databases, and made the app's design cleaner.
+What was in my way: Struggled with getting the databases to work smoothly.
+What will I do today: I'll work on making the database better and keep tweaking the app's design.
+
+Doruk:
+
+What did I do yesterday: Focused on fixing the backend, especially making sure our servers work well, and made the app look nicer.
+What was in my way: Had a hard time with the server connections.
+What will I do today: I'll work on fixing the server issues and do more on the app's design.
