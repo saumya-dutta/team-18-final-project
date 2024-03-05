@@ -1,36 +1,18 @@
-import app from 'firebase/app';
-import 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth"; // Import for Firebase Authentication
 
 const firebaseConfig = {
-  //Enter your firebase API details
-  };
-class Firebase {
-  constructor() {
-    app.initializeApp(firebaseConfig);
-    this.auth = app.auth();
-  }
-  
-  // *** Auth API ***
+  //  Firebase configuration
+  apiKey: "AIzaSyDnq7WRlnaQTwUgJUOmSqvJGtWiTgIFec0",
+  authDomain: "horizons-e72ef.firebaseapp.com",
+  projectId: "horizons-e72ef",
+  storageBucket: "horizons-e72ef.appspot.com",
+  messagingSenderId: "323869939208",
+  appId: "1:323869939208:web:35178ea02ac5a24101e3bd"
+};
 
-  doCreateUserWithEmailAndPassword = (email, password) =>
-  this.auth.createUserWithEmailAndPassword(email, password);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app); // Initialize Firebase Authentication
 
-  doSignInWithEmailAndPassword = (email, password) =>
-  this.auth.signInWithEmailAndPassword(email, password);
-
-  doSignOut = () => this.auth.signOut();
-
-  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
-
-  doPasswordUpdate = password =>
-    this.auth.currentUser.updatePassword(password);
-
-  doGetIdToken = (bool) => {
-    return this.auth.currentUser.getIdToken(/* forceRefresh */ bool);
-  }
-
-  doGetUserByEmail = email => this.auth.getUserByEmail(email);
-
-}
-
-export default Firebase;
+export default app;
+export { auth };
