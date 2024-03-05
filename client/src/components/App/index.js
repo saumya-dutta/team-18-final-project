@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '../Firebase';
 import AuthForm from '../SignInAndSignUp';
 import Food from '../Food';
-import FitnessGoals from '../Activity';
+import FitnessGoals from '../Activity/index.js';
 import UserProfileForm from '../Profile';
 import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, CssBaseline, Button, Menu, MenuItem } from '@mui/material';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
