@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from '../Firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import backgroundImage from '../../assets/MSCI-app-login copy.jpg';
+import { useNavigate } from 'react-router-dom';
+
 
 // Create a theme instance with shades of gray
 const theme = createTheme({
@@ -46,6 +48,8 @@ const theme = createTheme({
 });
 
 function SignIn() {
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -53,6 +57,7 @@ function SignIn() {
       const userCredential = await signInWithEmailAndPassword(auth, data.get('email'), data.get('password'));
       console.log('Signed in user:', userCredential.user);
       // Redirect or perform additional actions after successful sign in
+      navigate('/Food');
     } catch (error) {
       console.error('Error signing in:', error);
       // Handle errors here, such as displaying a notification
@@ -61,9 +66,9 @@ function SignIn() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      {/* <Grid container component="main" sx={{ height: '100vh' }}> */}
         <CssBaseline />
-        <Grid
+        {/* <Grid
           item
           xs={false}
           sm={4}
@@ -76,7 +81,7 @@ function SignIn() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-        />
+        /> */}
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -144,7 +149,7 @@ function SignIn() {
             </Box>
           </Box>
         </Grid>
-      </Grid>
+      {/* </Grid> */}
     </ThemeProvider>
   );
 }
