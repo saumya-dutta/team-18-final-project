@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Header from '../LandingPage/header.js';
+import Landing from './landing.js';
 
 
 export default function HomePage() {
@@ -30,6 +31,8 @@ export default function HomePage() {
     return (
         <div>
             <Header />
+            <Landing/>
+            
             <Container>
                 <Box my={4}>
                     <Typography variant="h4" align="center" gutterBottom>

@@ -5,7 +5,7 @@ import { auth } from '../Firebase';
 import AuthForm from '../SignInAndSignUp';
 import Food from '../Food';
 import FitnessGoals from '../Activity';
-import UserProfileForm from '../UserProfileForm';
+import UserProfileForm from '../Profile';
 import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, CssBaseline, Button, Menu, MenuItem } from '@mui/material';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -73,7 +73,7 @@ function App() {
                   {[
                     { text: 'Food', path: '/Food' },
                     { text: 'Activity', path: '/Activity' },
-                    // { text: 'Profile', path: '/user-profile' }
+                    { text: 'Settings', path: '/user-profile' }
                   ].map((item) => (
                     <Button key={item.text} component={Link} to={item.path}
                       variant="contained"
@@ -88,7 +88,7 @@ function App() {
                       {item.text}
                     </Button>
                   ))}
-                  <PopupState variant="popover" popupId="demo-popup-menu">
+                  {/* <PopupState variant="popover" popupId="demo-popup-menu">
                     {(popupState) => (
                       <React.Fragment>
                         <Button variant="contained" color="warning" 
@@ -109,7 +109,7 @@ function App() {
                         </Menu>
                       </React.Fragment>
                     )}
-                  </PopupState>
+                  </PopupState> */}
                 </div>
               </Toolbar>
             </AppBar>
