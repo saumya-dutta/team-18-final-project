@@ -37,9 +37,11 @@ import TextField from "@mui/material/TextField";
 import { fetchData } from './utils/fetchData';
 import SearchBar from './SearchExercises';
 import Exercises from './Exercises';
+import SleepPage from './SleepPage';
 
 export default function App() {
     const [exercises, setExercises] = useState([]);
+    const [activeTab, setActiveTab] = React.useState(0);
 
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
@@ -75,7 +77,8 @@ export default function App() {
                     </Typography>
                 </Box>
                 <Tabs
-                    defaultValue={0}
+                    value={activeTab}
+                    onChange={(event, newValue) => setActiveTab(newValue)}
                     sx={{
                         bgcolor: 'transparent',
                     }}
@@ -104,6 +107,9 @@ export default function App() {
                         <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={0}>
                             Workouts
                         </Tab>
+                        <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={1}>
+                            Routines
+                        </Tab>
                         <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={2}>
                             Sleep
                         </Tab>
@@ -113,6 +119,8 @@ export default function App() {
                     </TabList>
                 </Tabs>
             </Box>
+
+            
             <Stack
                 spacing={4}
                 sx={{
@@ -123,64 +131,89 @@ export default function App() {
                     py: { xs: 2, md: 3 },
                 }}
             >
-                <Card>
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Search Workouts</Typography>
-                        <Typography level="body-sm">
-                            Search to add to your routines! Search by any keyword (chest, abs, lat, cable, dumbbell, etc...)
-                        </Typography>
-                    </Box>
-                    <Divider />
-
-
-                    <SearchBar setExercises={setExercises}/>
-                    <Exercises exercises={exercises} setExercises={setExercises}/>
-                    
-
-
-                    {/* <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral">
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="solid">
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow> */}
-                </Card>
-                <Card>
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Bio</Typography>
-                        <Typography level="body-sm">
-                            Write a short introduction to be displayed on your profile
-                        </Typography>
-                    </Box>
-                    <Divider />
-                    <Stack spacing={2} sx={{ my: 1 }}>
-                        {/* <EditorToolbar /> */}
-                        <Textarea
-                            size="sm"
-                            minRows={4}
-                            sx={{ mt: 1.5 }}
-                            defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
-                        />
-                        <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
-                            275 characters left
-                        </FormHelperText>
-                    </Stack>
-                    <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral">
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="solid">
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow>
-                </Card>
-
+                {activeTab === 0 && (
+                    <Card>
+                        <Box sx={{ mb: 1 }}>
+                            <Typography level="title-md">Search Workouts</Typography>
+                            <Typography level="body-sm">
+                                Search to add to your routines! Search by any keyword (chest, abs, lat, cable, dumbbell, etc...)
+                            </Typography>
+                        </Box>
+                        <Divider />
+    
+                        <SearchBar setExercises={setExercises}/>
+                        <Exercises exercises={exercises} setExercises={setExercises}/>
+                    </Card>
+                )}
+                {activeTab === 1 && (
+                    <Card>
+                        <Box sx={{ mb: 1 }}>
+                            <Typography level="title-md">Bio</Typography>
+                            <Typography level="body-sm">
+                                Write a short introduction to be displayed on your profile
+                            </Typography>
+                        </Box>
+                        <Divider />
+                        <Stack spacing={2} sx={{ my: 1 }}>
+                            {/* <EditorToolbar /> */}
+                            <Textarea
+                                size="sm"
+                                minRows={4}
+                                sx={{ mt: 1.5 }}
+                                defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
+                            />
+                            <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
+                                275 characters left
+                            </FormHelperText>
+                        </Stack>
+                        <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+                            <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                                <Button size="sm" variant="outlined" color="neutral">
+                                    Cancel
+                                </Button>
+                                <Button size="sm" variant="solid">
+                                    Save
+                                </Button>
+                            </CardActions>
+                        </CardOverflow>
+                    </Card>
+                )}
+                {activeTab === 2 && (
+                    <SleepPage/>
+                )}
+                {activeTab === 3 && (
+                    <Card>
+                        <Box sx={{ mb: 1 }}>
+                            <Typography level="title-md">Bio</Typography>
+                            <Typography level="body-sm">
+                                Write a short introduction to be displayed on your profile
+                            </Typography>
+                        </Box>
+                        <Divider />
+                        <Stack spacing={2} sx={{ my: 1 }}>
+                            {/* <EditorToolbar /> */}
+                            <Textarea
+                                size="sm"
+                                minRows={4}
+                                sx={{ mt: 1.5 }}
+                                defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
+                            />
+                            <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
+                                275 characters left
+                            </FormHelperText>
+                        </Stack>
+                        <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+                            <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                                <Button size="sm" variant="outlined" color="neutral">
+                                    Cancel
+                                </Button>
+                                <Button size="sm" variant="solid">
+                                    Save
+                                </Button>
+                            </CardActions>
+                        </CardOverflow>
+                    </Card>
+                )}
             </Stack>
         </Box>
     );

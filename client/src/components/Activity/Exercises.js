@@ -11,7 +11,7 @@ const Exercises = (
     }
     ) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const exercisesPerPage = 4;
+  const exercisesPerPage = 6;
 
   useEffect(() => {
     const fetchExerciseData = async () => {
