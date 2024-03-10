@@ -1,18 +1,10 @@
-export const exerciseOptions =  {
+export const exerciseOptions = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': 'a134c4486fmshaf1c22c1e5252dbp12837djsn00b1f42358e8',
-      'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
-    }
-  };
-
-  export const youtubeOptions = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': 'a134c4486fmshaf1c22c1e5252dbp12837djsn00b1f42358e8',
-      'X-RapidAPI-Host': 'youtube-search-and-download.p.rapidapi.com'
-    }
-  };
+        'X-RapidAPI-Key': '77c9d21713msh2c391af7138989dp1ed369jsn980aaa71da2c',
+        'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+    },
+};
 
 export const fetchData = async(url, options) => {
     const response = await fetch(url, options);
@@ -20,3 +12,4 @@ export const fetchData = async(url, options) => {
 
     return data;
 }
+

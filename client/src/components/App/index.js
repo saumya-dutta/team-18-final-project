@@ -40,6 +40,7 @@ function App() {
     <div>
       <List>
         {[
+          // { text: 'Food', path: '/Home' },
           { text: 'Food', path: '/Food' },
           { text: 'Activity', path: '/Activity' },
           { text: 'Profile', path: '/user-profile' }
@@ -71,6 +72,7 @@ function App() {
                 </IconButton>
                 <div style={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
                   {[
+                    // { text: 'Home', path: '/Home' },
                     { text: 'Food', path: '/Food' },
                     { text: 'Activity', path: '/Activity' },
                     { text: 'Settings', path: '/user-profile' }
@@ -134,6 +136,7 @@ function App() {
             {isSignedIn ? (
               <>
                 <Route path="/" element={<Navigate replace to="/Food" />} />
+                {/* <Route path="/Home" element={< />} /> */}
                 <Route path="/Food" element={<Food />} />
                 <Route path="/Activity" element={<FitnessGoals />} />
                 <Route path="/user-profile" element={<UserProfileForm />} />
