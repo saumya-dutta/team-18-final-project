@@ -5,7 +5,7 @@ import { auth } from '../Firebase';
 import AuthForm from '../SignInAndSignUp';
 import Food from '../Food';
 import FitnessGoals from '../Activity/index.js';
-import UserProfileForm from '../Profile';
+import UserProfileForm from '../Profile/index.js';
 import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, CssBaseline, Button, Menu, MenuItem } from '@mui/material';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import MenuIcon from '@mui/icons-material/Menu';
