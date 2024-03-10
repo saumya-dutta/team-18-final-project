@@ -31,8 +31,18 @@ import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
+import { useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
+import { fetchData } from './utils/fetchData';
+import SearchBar from './SearchExercises';
+import Exercises from './Exercises';
+import SleepPage from './SleepPage';
 
 export default function App() {
+    const [exercises, setExercises] = useState([]);
+    const [activeTab, setActiveTab] = React.useState(0);
+
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
             <Box
@@ -67,7 +77,8 @@ export default function App() {
                     </Typography>
                 </Box>
                 <Tabs
-                    defaultValue={0}
+                    value={activeTab}
+                    onChange={(event, newValue) => setActiveTab(newValue)}
                     sx={{
                         bgcolor: 'transparent',
                     }}
@@ -96,15 +107,17 @@ export default function App() {
                         <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={0}>
                             Workouts
                         </Tab>
+                        <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={1}>
+                            Routines
+                        </Tab>
                         <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={2}>
                             Sleep
-                        </Tab>
-                        <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={3}>
-                            Goals
                         </Tab>
                     </TabList>
                 </Tabs>
             </Box>
+
+            
             <Stack
                 spacing={4}
                 sx={{
@@ -115,268 +128,57 @@ export default function App() {
                     py: { xs: 2, md: 3 },
                 }}
             >
-                <Card>
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Workout Logger</Typography>
-                        <Typography level="body-sm">
-                            Customize your workouts here.
-                        </Typography>
-                    </Box>
-                    <Divider />
-                    {/* <Stack
-                        direction="row"
-                        spacing={3}
-                        sx={{ display: { xs: 'none', md: 'flex' }, my: 1 }}
-                    >
-                        <Stack direction="column" spacing={1}>
-                            <AspectRatio
-                                ratio="1"
-                                maxHeight={200}
-                                sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
-                            >
-                                <img
-                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                                    loading="lazy"
-                                    alt=""
-                                />
-                            </AspectRatio>
-                            <IconButton
-                                aria-label="upload new picture"
+                {activeTab === 0 && (
+                    <Card>
+                        <Box sx={{ mb: 1 }}>
+                            <Typography level="title-md">Search Workouts</Typography>
+                            <Typography level="body-sm">
+                                Search to add to your routines! Search by any keyword (chest, abs, lat, cable, dumbbell, etc...)
+                            </Typography>
+                        </Box>
+                        <Divider />
+    
+                        <SearchBar setExercises={setExercises}/>
+                        <Exercises exercises={exercises} setExercises={setExercises}/>
+                    </Card>
+                )}
+                {activeTab === 1 && (
+                    <Card>
+                        <Box sx={{ mb: 1 }}>
+                            <Typography level="title-md">Bio</Typography>
+                            <Typography level="body-sm">
+                                Write a short introduction to be displayed on your profile
+                            </Typography>
+                        </Box>
+                        <Divider />
+                        <Stack spacing={2} sx={{ my: 1 }}>
+                            {/* <EditorToolbar /> */}
+                            <Textarea
                                 size="sm"
-                                variant="outlined"
-                                color="neutral"
-                                sx={{
-                                    bgcolor: 'background.body',
-                                    position: 'absolute',
-                                    zIndex: 2,
-                                    borderRadius: '50%',
-                                    left: 100,
-                                    top: 170,
-                                    boxShadow: 'sm',
-                                }}
-                            >
-                                <EditRoundedIcon />
-                            </IconButton>
-                        </Stack>
-                        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-                            <Stack spacing={1}>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl
-                                    sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
-                                >
-                                    <Input size="sm" placeholder="First name" />
-                                    <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} />
-                                </FormControl>
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <FormControl>
-                                    <FormLabel>Role</FormLabel>
-                                    <Input size="sm" defaultValue="UI Developer" />
-                                </FormControl>
-                                <FormControl sx={{ flexGrow: 1 }}>
-                                    <FormLabel>Email</FormLabel>
-                                    <Input
-                                        size="sm"
-                                        type="email"
-                                        startDecorator={<EmailRoundedIcon />}
-                                        placeholder="email"
-                                        defaultValue="siriwatk@test.com"
-                                        sx={{ flexGrow: 1 }}
-                                    />
-                                </FormControl>
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <FormControl>
-                                    <FormLabel>Weight</FormLabel>
-                                    <Input size="sm"
-                                    // defaultValue="UI Developer" 
-                                    />
-                                </FormControl>
-                                <FormControl sx={{ flexGrow: 1 }}>
-                                    <FormLabel>Height</FormLabel>
-                                    <Input
-                                        size="sm"
-                                        type="email"
-                                        // startDecorator={<EmailRoundedIcon />}
-                                        placeholder="email"
-                                        // defaultValue="siriwatk@test.com"
-                                        sx={{ flexGrow: 1 }}
-                                    />
-                                </FormControl>
-                            </Stack>
-                            <div>
-                                <FormControl sx={{ display: { sm: 'contents' } }}>
-                                    <FormLabel>Age</FormLabel>
-                                    <Select
-                                        size="sm"
-                                        startDecorator={<PersonSearchIcon />}
-                                        defaultValue="1"
-                                    >
-                                        <Option value="1">
-                                            Youth{' '}
-                                            <Typography textColor="text.tertiary" ml={0.5}>
-                                                - (0 - 19)
-                                            </Typography>
-                                        </Option>
-                                        <Option value="2">
-                                            Young Adult{' '}
-                                            <Typography textColor="text.tertiary" ml={0.5}>
-                                                — (17 - 30)
-                                            </Typography>
-                                        </Option>
-                                        <Option value="1">
-                                            Middle Aged Adults{' '}
-                                            <Typography textColor="text.tertiary" ml={0.5}>
-                                                — (31 - 45)
-                                            </Typography>
-                                        </Option>
-                                        <Option value="1">
-                                            Old Adults{' '}
-                                            <Typography textColor="text.tertiary" ml={0.5}>
-                                                — Above 45
-                                            </Typography>
-                                        </Option>
-                                    </Select>
-                                </FormControl>
-                            </div>
-                        </Stack>
-                    </Stack> */}
-                    <Stack
-                        direction="column"
-                        spacing={2}
-                        sx={{ display: { xs: 'flex', md: 'none' }, my: 1 }}
-                    >
-                        <Stack direction="row" spacing={2}>
-                            <Stack direction="column" spacing={1}>
-                                <AspectRatio
-                                    ratio="1"
-                                    maxHeight={108}
-                                    sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
-                                >
-                                    <img
-                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                                        srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                                        loading="lazy"
-                                        alt=""
-                                    />
-                                </AspectRatio>
-                                <IconButton
-                                    aria-label="upload new picture"
-                                    size="sm"
-                                    variant="outlined"
-                                    color="neutral"
-                                    sx={{
-                                        bgcolor: 'background.body',
-                                        position: 'absolute',
-                                        zIndex: 2,
-                                        borderRadius: '50%',
-                                        left: 85,
-                                        top: 180,
-                                        boxShadow: 'sm',
-                                    }}
-                                >
-                                    <EditRoundedIcon />
-                                </IconButton>
-                            </Stack>
-                            <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl
-                                    sx={{
-                                        display: {
-                                            sm: 'flex-column',
-                                            md: 'flex-row',
-                                        },
-                                        gap: 2,
-                                    }}
-                                >
-                                    <Input size="sm" placeholder="First name" />
-                                    <Input size="sm" placeholder="Last name" />
-                                </FormControl>
-                            </Stack>
-                        </Stack>
-                        <FormControl>
-                            <FormLabel>Role</FormLabel>
-                            <Input size="sm" defaultValue="UI Developer" />
-                        </FormControl>
-                        <FormControl sx={{ flexGrow: 1 }}>
-                            <FormLabel>Email</FormLabel>
-                            <Input
-                                size="sm"
-                                type="email"
-                                startDecorator={<EmailRoundedIcon />}
-                                placeholder="email"
-                                defaultValue="siriwatk@test.com"
-                                sx={{ flexGrow: 1 }}
+                                minRows={4}
+                                sx={{ mt: 1.5 }}
+                                defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
                             />
-                        </FormControl>
-                        <div>
-                            <FormControl sx={{ display: { sm: 'contents' } }}>
-                                <FormLabel>Timezone</FormLabel>
-                                <Select
-                                    size="sm"
-                                    startDecorator={<AccessTimeFilledRoundedIcon />}
-                                    defaultValue="1"
-                                >
-                                    <Option value="1">
-                                        Indochina Time (Bangkok){' '}
-                                        <Typography textColor="text.tertiary" ml={0.5}>
-                                            — GMT+07:00
-                                        </Typography>
-                                    </Option>
-                                    <Option value="2">
-                                        Indochina Time (Ho Chi Minh City){' '}
-                                        <Typography textColor="text.tertiary" ml={0.5}>
-                                            — GMT+07:00
-                                        </Typography>
-                                    </Option>
-                                </Select>
-                            </FormControl>
-                        </div>
-                    </Stack>
-                    <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral">
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="solid">
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow>
-                </Card>
-                <Card>
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Bio</Typography>
-                        <Typography level="body-sm">
-                            Write a short introduction to be displayed on your profile
-                        </Typography>
-                    </Box>
-                    <Divider />
-                    <Stack spacing={2} sx={{ my: 1 }}>
-                        {/* <EditorToolbar /> */}
-                        <Textarea
-                            size="sm"
-                            minRows={4}
-                            sx={{ mt: 1.5 }}
-                            defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
-                        />
-                        <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
-                            275 characters left
-                        </FormHelperText>
-                    </Stack>
-                    <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral">
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="solid">
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow>
-                </Card>
-
+                            <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
+                                275 characters left
+                            </FormHelperText>
+                        </Stack>
+                        <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+                            <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                                <Button size="sm" variant="outlined" color="neutral">
+                                    Cancel
+                                </Button>
+                                <Button size="sm" variant="solid">
+                                    Save
+                                </Button>
+                            </CardActions>
+                        </CardOverflow>
+                    </Card>
+                )}
+                {activeTab === 2 && (
+                    <SleepPage/>
+                )}
+                
             </Stack>
         </Box>
     );
