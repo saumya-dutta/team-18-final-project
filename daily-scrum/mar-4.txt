@@ -2,7 +2,7 @@ Saumya:
 
 What did I do yesterday: Managed to sort out most of the API issues and thought about adding some new features to the UI based on our latest ideas.
 What was in my way: Still facing a few small bugs with the API integration that need to be ironed out, regarding entering food and putting calories and macros automatically.
-What will I do today: I'll think about how a user should use the app and their actions at each step.
+What will I do today: implementing consistent formatting throughout the UI
 
 Athena: 
 
