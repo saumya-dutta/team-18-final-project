@@ -1,15 +1,15 @@
-import {render, screen, fireEvent} from '@testing-library/react';
-import SignIn from './index';
-import '@testing-library/jest-dom';
+// import {render, screen, fireEvent} from '@testing-library/react';
+// import SignIn from './index';
+// import '@testing-library/jest-dom';
 
 describe('Sign In and Sign Up', () => {
   const SignIn = {
     title: 'Sign In'
   };
 
-  function renderComponent() {
-    render(<SignIn/>);
-  }
+//   function renderComponent() {
+//     render(<SignIn/>);
+//   }
 
   it('displays the title', () => {
     renderComponent();

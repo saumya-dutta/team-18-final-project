@@ -35,9 +35,92 @@ import MenuItem from '@mui/joy/MenuItem';
 // import FileUpload from './FileUpload';
 import CountrySelector from './CountrySelector';
 // import EditorToolbar from './EditorToolbar';
+// import callApiLoadUserSettings from './utils/callApiLoadUserSettings';
+const serverURL = ""
+
 
 export default function Profile() {
+
+
   const [selectedGoal, setSelectedGoal] = React.useState("");
+  // React.useEffect(() => {
+  //   loadHelloWorld({ email: 'okay@okay.com' });
+  // }, [])
+
+  //to do: api returning 403 forbidden error - fix this
+  const serverURL = ""
+  const callHelloWorld = async (serverURL) => {
+    const url = serverURL + "/api/hello";
+
+    console.log(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if (!response.ok) {
+      console.log(response);
+      throw new Error('Failed to fetch hello world');
+    }
+
+    try {
+      const body = await response.json();
+      console.log("response: ", body);
+      return body;
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      throw new Error('Failed to parse server response');
+    }
+  }
+  const loadHelloWorld = () => {
+    callHelloWorld(serverURL)
+      .then(res => {
+        console.log("callHelloWorld returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callHelloWorld parsed: ", parsed);
+      });
+  }
+
+  const callApiLoadUserSettings = async (serverURL, email) => {
+    const url = serverURL + "/user/email";
+
+    console.log(url);
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+
+    if (!response.ok) {
+      console.log(response);
+      throw new Error('Failed to fetch user settings');
+    }
+
+    try {
+      const body = await response.json();
+      console.log("User settings: ", body);
+      return body;
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      throw new Error('Failed to parse server response');
+    }
+  }
+
+
+  const loadUserSettings = ({ email }) => {
+    callApiLoadUserSettings(serverURL, email)
+      .then(res => {
+        console.log("callApiLoadUserSettings returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiLoadUserSettings parsed: ", parsed);
+      });
+  }
 
   return (
     <Stack
@@ -56,6 +139,7 @@ export default function Profile() {
           <Typography level="body-sm">
             Customize how your profile information will apper to the networks.
           </Typography>
+          {/* <button onClick={console.log(loadUserSettings({ email: 'okay@okay.com' }))}>Test Endpoint</button> */}
         </Box>
         <Divider />
         <Stack
@@ -100,15 +184,10 @@ export default function Profile() {
               <FormControl
                 sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
               >
-                <Input size="sm" placeholder="First name" />
-                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} />
+                <Input size="sm" placeholder="First name" value="Saumya"/>
+                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} value="Dutta"/>
               </FormControl>
             </Stack>
-            <Stack direction="row" spacing={2}>
-              <FormControl>
-                <FormLabel>Role</FormLabel>
-                <Input size="sm" defaultValue="UI Developer" />
-              </FormControl>
               <FormControl sx={{ flexGrow: 1 }}>
                 <FormLabel>Email</FormLabel>
                 <Input
@@ -116,26 +195,26 @@ export default function Profile() {
                   type="email"
                   startDecorator={<EmailRoundedIcon />}
                   placeholder="email"
-                  defaultValue="siriwatk@test.com"
+                  defaultValue="okay@okay.com"
                   sx={{ flexGrow: 1 }}
                 />
               </FormControl>
-            </Stack>
             <Stack direction="row" spacing={2}>
               <FormControl>
                 <FormLabel>Weight</FormLabel>
                 <Input size="sm"
-                // defaultValue="UI Developer" 
+                value="38" 
                 />
               </FormControl>
               <FormControl sx={{ flexGrow: 1 }}>
                 <FormLabel>Height</FormLabel>
                 <Input
                   size="sm"
-                  type="email"
+                  // type="email"
                   // startDecorator={<EmailRoundedIcon />}
-                  placeholder="email"
-                  // defaultValue="siriwatk@test.com"
+                  // placeholder="email"
+                  // defaultValue="48"
+                  value="48"
                   sx={{ flexGrow: 1 }}
                 />
               </FormControl>
@@ -234,8 +313,8 @@ export default function Profile() {
             </Stack>
           </Stack>
           <FormControl>
-            <FormLabel>Role</FormLabel>
-            <Input size="sm" defaultValue="UI Developer" />
+            {/* <FormLabel>Role</FormLabel> */}
+            {/* <Input size="sm" defaultValue="UI Developer" /> */}
           </FormControl>
           <FormControl sx={{ flexGrow: 1 }}>
             <FormLabel>Email</FormLabel>
