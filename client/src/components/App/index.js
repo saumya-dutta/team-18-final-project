@@ -15,6 +15,7 @@ import HomePage from '../LandingPage/homepage.js';
 import Header from '../LandingPage/header.js';
 import RunCircleIcon from '@mui/icons-material/RunCircle';
 import SignIn from '../SignInAndSignUp';
+import { withFirebase } from '../Firebase';
 // import { useNavigate } from 'react-router-dom';
 
 
@@ -145,6 +146,7 @@ function App() {
             ) : (
               <>
                 <Route path="*" element={<HomePage />} />
+                <Route path="/auth" element={<SignIn />} /> 
               </>
             )}
           </Routes>
