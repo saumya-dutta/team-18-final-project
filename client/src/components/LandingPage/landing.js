@@ -10,9 +10,9 @@ import Drawer from '@mui/material/Drawer';
 export default function Landing() {
   const [openLogin, setOpenLogin] = React.useState(false);
 
-    const toggleDrawer = (newOpen) => () => {
-        setOpenLogin(newOpen);
-    };
+  const toggleDrawer = newOpen => () => {
+    setOpenLogin(newOpen);
+  };
   const scrollToBottom = () => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
@@ -30,8 +30,8 @@ export default function Landing() {
         Welcome to Fit-ify! Strength Training and Healhty eating all in one
       </Typography>
       <Typography fontSize="lg" textColor="text.secondary" lineHeight="lg">
-        A descriptive secondary text placeholder. Use it to explain your business
-        offer better.
+        A descriptive secondary text placeholder. Use it to explain your
+        business offer better.
       </Typography>
       <Box
         sx={{
@@ -39,13 +39,22 @@ export default function Landing() {
           flexWrap: 'wrap',
           gap: 2,
           my: 2,
-          '& > *': { flex: 'auto' },
+          '& > *': {flex: 'auto'},
         }}
       >
-        <Button size="lg" variant="outlined" color="neutral" onClick={scrollToBottom}> 
+        <Button
+          size="lg"
+          variant="outlined"
+          color="neutral"
+          onClick={scrollToBottom}
+        >
           Learn More
         </Button>
-        <Button size="lg" onClick={toggleDrawer(true)} endDecorator={<ArrowForward fontSize="xl" />}>
+        <Button
+          size="lg"
+          onClick={toggleDrawer(true)}
+          endDecorator={<ArrowForward fontSize="xl" />}
+        >
           Get Started
         </Button>
         <Drawer open={openLogin} onClose={toggleDrawer(false)} anchor="right">
@@ -53,7 +62,7 @@ export default function Landing() {
         </Drawer>
       </Box>
       <Box
-        sx={(theme) => ({
+        sx={theme => ({
           display: 'flex',
           columnGap: 4.5,
           rowGap: 1.5,
@@ -78,7 +87,7 @@ export default function Landing() {
           <Typography
             fontSize="xl4"
             fontWeight="lg"
-            endDecorator={<Star fontSize="xl4" sx={{ color: 'warning.300' }} />}
+            endDecorator={<Star fontSize="xl4" sx={{color: 'warning.300'}} />}
           >
             4.9
           </Typography>
@@ -96,6 +105,5 @@ export default function Landing() {
         </div>
       </Box>
     </TwoSidedLayout>
-    
   );
 }
