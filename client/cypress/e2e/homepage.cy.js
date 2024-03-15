@@ -8,7 +8,7 @@ describe('testing home page before sign in', () => {
     cy.visit('/');
     cy.contains('Welcome to Fit-ify!');
   });
-  
+
   it('should contain the Fit-ify icon', () => {
     cy.get('svg[data-testid="run-circle"]').should('be.visible');
   });
@@ -23,5 +23,10 @@ describe('testing home page before sign in', () => {
 
   it('should contain the "Login" button', () => {
     cy.contains('Login').should('be.visible');
+  });
+
+  it('should open the login drawer when "Login" button is clicked', () => {
+    cy.contains('Login').click();
+    cy.get('[data-testid="sign-in-form"]').should('be.visible');
   });
 });
