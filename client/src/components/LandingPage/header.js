@@ -30,7 +30,7 @@ export default function LandingPage() {
                         aria-label="menu"
                         sx={{ mr: 2 }}
                     >
-                        <RunCircleIcon />
+                        <RunCircleIcon data-testid="run-circle"/>
                     </IconButton>
                     <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
                         Welcome to Fit-ify!
