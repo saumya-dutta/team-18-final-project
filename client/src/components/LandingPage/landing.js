@@ -5,8 +5,21 @@ import Typography from '@mui/joy/Typography';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import Star from '@mui/icons-material/Star';
 import TwoSidedLayout from './TwoSidedLayout.js';
-
+import SignIn from '../SignInAndSignUp/index';
+import Drawer from '@mui/material/Drawer';
 export default function Landing() {
+  const [openLogin, setOpenLogin] = React.useState(false);
+
+    const toggleDrawer = (newOpen) => () => {
+        setOpenLogin(newOpen);
+    };
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth', // This enables smooth scrolling
+    });
+  };
+
   return (
     <TwoSidedLayout>
       <Typography
@@ -29,12 +42,15 @@ export default function Landing() {
           '& > *': { flex: 'auto' },
         }}
       >
-        <Button size="lg" variant="outlined" color="neutral">
+        <Button size="lg" variant="outlined" color="neutral" onClick={scrollToBottom}> 
           Learn More
         </Button>
-        <Button size="lg" endDecorator={<ArrowForward fontSize="xl" />}>
+        <Button size="lg" onClick={toggleDrawer(true)} endDecorator={<ArrowForward fontSize="xl" />}>
           Get Started
         </Button>
+        <Drawer open={openLogin} onClose={toggleDrawer(false)} anchor="right">
+          <SignIn />
+        </Drawer>
       </Box>
       <Box
         sx={(theme) => ({
@@ -80,5 +96,6 @@ export default function Landing() {
         </div>
       </Box>
     </TwoSidedLayout>
+    
   );
 }
