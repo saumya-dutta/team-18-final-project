@@ -1,4 +1,7 @@
 const express = require('express');
+// import express from 'express';
+const request = require('request');
+
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Pool } = require('pg');
@@ -50,6 +53,51 @@ app.post('/updateProfile', async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
+  }
+});
+
+// Excercises API
+// const apiKey = 'YOUR_API_KEY'; // replace this with your actual API key
+
+// app.get('/exercises', (req, res) => {
+//   const muscle = req.query.muscle || 'biceps'; // default muscle to 'biceps' if not provided
+
+//   request.get({
+//     url: 'https://api.api-ninjas.com/v1/exercises',
+//     qs: { muscle }, // Query string parameters
+//     headers: {
+//       'X-Api-Key': apiKey
+//     },
+//   }, (error, response, body) => {
+//     if (error) {
+//       console.error('Request failed:', error);
+//       res.status(500).send('Internal Server Error');
+//     } else if (response.statusCode !== 200) {
+//       console.error('Error:', response.statusCode, body.toString('utf8'));
+//       res.status(response.statusCode).send(body.toString('utf8'));
+//     } else {
+//       res.send(body); // Send the response body to the client
+//     }
+//   });
+// });
+
+app.get('/exercises', async (req, res) => {
+  const options = {
+    method: 'GET',
+    url: 'https://exercisedb.p.rapidapi.com/exercises',
+    params: { limit: '10' },
+    headers: {
+      'X-RapidAPI-Key': '77c9d21713msh2c391af7138989dp1ed369jsn980aaa71da2c',
+      'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    res.json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

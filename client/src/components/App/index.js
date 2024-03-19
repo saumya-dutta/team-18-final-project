@@ -4,14 +4,25 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '../Firebase';
 import AuthForm from '../SignInAndSignUp';
 import Food from '../Food';
-import FitnessGoals from '../Activity';
-import UserProfileForm from '../UserProfileForm';
-import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, CssBaseline, Button } from '@mui/material';
+import FitnessGoals from '../Activity/index.js';
+import UserProfileForm from '../Profile/index.js';
+import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, CssBaseline, Button, Menu, MenuItem } from '@mui/material';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import MenuIcon from '@mui/icons-material/Menu';
 import theme from '../../theme.js';
 import { ThemeProvider } from '@mui/material/styles';
+import HomePage from '../LandingPage/homepage.js';
+import Header from '../LandingPage/header.js';
+import RunCircleIcon from '@mui/icons-material/RunCircle';
+import SignIn from '../SignInAndSignUp';
+import { withFirebase } from '../Firebase';
+// import { useNavigate } from 'react-router-dom';
+
+
 
 function App() {
+  // const navigate = useNavigate();
+
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -31,6 +42,7 @@ function App() {
     <div>
       <List>
         {[
+          // { text: 'Food', path: '/Home' },
           { text: 'Food', path: '/Food' },
           { text: 'Activity', path: '/Activity' },
           { text: 'Profile', path: '/user-profile' }
@@ -49,27 +61,59 @@ function App() {
       <Router>
         {isSignedIn && (
           <>
-            <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+            <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} style={{ background: '#FFA756' }}>
               <Toolbar>
                 <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
+                  // size="large"
                   edge="start"
-                  onClick={handleDrawerToggle}
-                  sx={{ mr: 2, display: { sm: 'none' } }}
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ mr: 2 }}
                 >
-                  <MenuIcon />
+                  <RunCircleIcon />
                 </IconButton>
                 <div style={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
                   {[
+                    // { text: 'Home', path: '/Home' },
                     { text: 'Food', path: '/Food' },
                     { text: 'Activity', path: '/Activity' },
-                    { text: 'Profile', path: '/user-profile' }
+                    { text: 'Settings', path: '/user-profile' }
                   ].map((item) => (
-                    <Button key={item.text} component={Link} to={item.path} color="inherit">
+                    <Button key={item.text} component={Link} to={item.path}
+                      variant="contained"
+                      color="warning"
+                      sx={
+                        {
+                          // background: '#FFFFFF',
+                          marginRight: 20,
+                          marginLeft: 20,
+                        }
+                      }>
                       {item.text}
                     </Button>
                   ))}
+                  {/* <PopupState variant="popover" popupId="demo-popup-menu">
+                    {(popupState) => (
+                      <React.Fragment>
+                        <Button variant="contained" color="warning" 
+                        sx={
+                          {
+                            // background: '#FFFFFF',
+                            marginRight: 20,
+                            marginLeft: 20,
+                          }
+                        }
+                        {...bindTrigger(popupState)}>
+                          Settings
+                        </Button>
+                        <Menu {...bindMenu(popupState)}>
+                          <MenuItem component={Link} to={'/user-profile'}>Profile</MenuItem>
+                          <MenuItem onClick={popupState.close}>My account</MenuItem>
+                          <MenuItem onClick={popupState.close}>Logout</MenuItem>
+                        </Menu>
+                      </React.Fragment>
+                    )}
+                  </PopupState> */}
                 </div>
               </Toolbar>
             </AppBar>
@@ -94,13 +138,15 @@ function App() {
             {isSignedIn ? (
               <>
                 <Route path="/" element={<Navigate replace to="/Food" />} />
+                {/* <Route path="/Home" element={< />} /> */}
                 <Route path="/Food" element={<Food />} />
                 <Route path="/Activity" element={<FitnessGoals />} />
                 <Route path="/user-profile" element={<UserProfileForm />} />
               </>
             ) : (
               <>
-                <Route path="*" element={<AuthForm />} />
+                <Route path="*" element={<HomePage />} />
+                <Route path="/auth" element={<SignIn />} /> 
               </>
             )}
           </Routes>
