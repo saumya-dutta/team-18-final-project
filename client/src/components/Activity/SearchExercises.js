@@ -46,15 +46,7 @@ const SearchExercises = ( {setExercises}
 
     return (
         <Stack direction="row" spacing={1} sx={{ flexGrow: 1 }}>
-            <FormControl
-                // sx={{
-                //     display: {
-                //         sm: 'flex-column',
-                //         md: 'flex-row',
-                //     },
-                //     // gap: 2,
-                // }}
-            >
+            <FormControl>
                 <Stack direction="row" spacing={1} sx={{ flexGrow: 1 }}>
                     <Input size="sm" 
                     value={search} 

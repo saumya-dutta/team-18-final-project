@@ -7,8 +7,6 @@ import Food from '../Food';
 import FitnessGoals from '../Activity/index.js';
 import UserProfileForm from '../Profile/index.js';
 import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, CssBaseline, Button, Menu, MenuItem } from '@mui/material';
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import MenuIcon from '@mui/icons-material/Menu';
 import theme from '../../theme.js';
 import { ThemeProvider } from '@mui/material/styles';
 import HomePage from '../LandingPage/homepage.js';
@@ -92,28 +90,6 @@ function App() {
                       {item.text}
                     </Button>
                   ))}
-                  {/* <PopupState variant="popover" popupId="demo-popup-menu">
-                    {(popupState) => (
-                      <React.Fragment>
-                        <Button variant="contained" color="warning" 
-                        sx={
-                          {
-                            // background: '#FFFFFF',
-                            marginRight: 20,
-                            marginLeft: 20,
-                          }
-                        }
-                        {...bindTrigger(popupState)}>
-                          Settings
-                        </Button>
-                        <Menu {...bindMenu(popupState)}>
-                          <MenuItem component={Link} to={'/user-profile'}>Profile</MenuItem>
-                          <MenuItem onClick={popupState.close}>My account</MenuItem>
-                          <MenuItem onClick={popupState.close}>Logout</MenuItem>
-                        </Menu>
-                      </React.Fragment>
-                    )}
-                  </PopupState> */}
                 </div>
               </Toolbar>
             </AppBar>
