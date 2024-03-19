@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: Creating endpoints to retrieve and send data to MySQL
+What was in my way: Keep getting a 403 unauthorized error when I try to retrieve data from the backend, not sure why this is happening
+What will I do today: looking into fixing the endpoints and investigating the issue further. I will also work on the existing stories and will meet with the team for a work session
+
+Athena: 
+
+What did I do yesterday: 
+What was in my way: 
+What will I do today: 
+
+Doruk:
+
+What did I do yesterday: 
+What was in my way: 
+What will I do today: 

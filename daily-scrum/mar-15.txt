@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: Finishing up sleep and create routine page for the application
+What was in my way: stil getting the 403 error from the backend
+What will I do today: will work on my Jest test for Sprint 3 deadline tonight and finishing up the deliverables (e2e test, jest test, video of fetaures and report)
+
+Athena: 
+
+What did I do yesterday: 
+What was in my way: 
+What will I do today: 
+
+Doruk:
+
+What did I do yesterday: 
+What was in my way: 
+What will I do today: 

@@ -2,7 +2,7 @@ Saumya:
 
 What did I do yesterday: Participated in a brainstorming session to structure the backend of our fitness web app project,
 searched for suitable external APIs, and contributed to UI improvements.
-What was in my way: Faced challenges in backend coding which impeded the planned progress.
+What was in my way: Faced challenges in backend coding which slowedd the planned progress.
 What will I do today: Focus on resolving backend coding issues and continue refining the UI based on the feedback from the team.
 
 Athena: 
