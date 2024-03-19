@@ -1,71 +1,339 @@
-import React, { useState } from 'react';
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Typography, Box } from '@mui/material';
+import * as React from 'react';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Divider from '@mui/joy/Divider';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import FormHelperText from '@mui/joy/FormHelperText';
+import Input from '@mui/joy/Input';
+import IconButton from '@mui/joy/IconButton';
+import Textarea from '@mui/joy/Textarea';
+import Stack from '@mui/joy/Stack';
+import Select from '@mui/joy/Select';
+import Option from '@mui/joy/Option';
+import Typography from '@mui/joy/Typography';
+import Tabs from '@mui/joy/Tabs';
+import TabList from '@mui/joy/TabList';
+import Tab, { tabClasses } from '@mui/joy/Tab';
+import Breadcrumbs from '@mui/joy/Breadcrumbs';
+import Link from '@mui/joy/Link';
+import Card from '@mui/joy/Card';
+import CardActions from '@mui/joy/CardActions';
+import CardOverflow from '@mui/joy/CardOverflow';
 
-const Profile = () => {
-  const [profileInfo, setProfileInfo] = useState({
-    firstName: '',
-    lastName: '',
-    preferredName: '',
-    userName: '',
-    gender: '',
-    country: '',
-    occupation: '',
-  });
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded'; import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
+import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import MenuItem from '@mui/joy/MenuItem';
 
-  const [showForm, setShowForm] = useState(false); // State to control form visibility
+// import DropZone from './DropZone';
+// import FileUpload from './FileUpload';
+import CountrySelector from './CountrySelector';
+// import EditorToolbar from './EditorToolbar';
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setProfileInfo(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(profileInfo);
-    alert('Profile updated successfully!');
-    setShowForm(false); // Hide form after submission
-  };
+export default function Profile() {
+  const [selectedGoal, setSelectedGoal] = React.useState("");
 
   return (
-    <Box sx={{ maxWidth: 600, margin: 'auto', padding: 3, boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)', borderRadius: 2 }}>
-      <Typography variant="h4" gutterBottom>
-        Profile
-      </Typography>
-      {!showForm && ( // Show this button only if the form is not displayed
-        <Button variant="contained" color="primary" onClick={() => setShowForm(true)} sx={{ marginBottom: 2 }}>
-          Customize Your Profile
-        </Button>
-      )}
+    <Stack
+      spacing={4}
+      sx={{
+        display: 'flex',
+        maxWidth: '800px',
+        mx: 'auto',
+        px: { xs: 2, md: 6 },
+        py: { xs: 2, md: 3 },
+      }}
+    >
+      <Card>
+        <Box sx={{ mb: 1 }}>
+          <Typography level="title-md">Personal info</Typography>
+          <Typography level="body-sm">
+            Customize how your profile information will apper to the networks.
+          </Typography>
+        </Box>
+        <Divider />
+        <Stack
+          direction="row"
+          spacing={3}
+          sx={{ display: { xs: 'none', md: 'flex' }, my: 1 }}
+        >
+          <Stack direction="column" spacing={1}>
+            <AspectRatio
+              ratio="1"
+              maxHeight={200}
+              sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
+            >
+              <img
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                loading="lazy"
+                alt=""
+              />
+            </AspectRatio>
+            <IconButton
+              aria-label="upload new picture"
+              size="sm"
+              variant="outlined"
+              color="neutral"
+              sx={{
+                bgcolor: 'background.body',
+                position: 'absolute',
+                zIndex: 2,
+                borderRadius: '50%',
+                left: 100,
+                top: 170,
+                boxShadow: 'sm',
+              }}
+            >
+              <EditRoundedIcon />
+            </IconButton>
+          </Stack>
+          <Stack spacing={2} sx={{ flexGrow: 1 }}>
+            <Stack spacing={1}>
+              <FormLabel>Name</FormLabel>
+              <FormControl
+                sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
+              >
+                <Input size="sm" placeholder="First name" />
+                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} />
+              </FormControl>
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <FormControl>
+                <FormLabel>Role</FormLabel>
+                <Input size="sm" defaultValue="UI Developer" />
+              </FormControl>
+              <FormControl sx={{ flexGrow: 1 }}>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  size="sm"
+                  type="email"
+                  startDecorator={<EmailRoundedIcon />}
+                  placeholder="email"
+                  defaultValue="siriwatk@test.com"
+                  sx={{ flexGrow: 1 }}
+                />
+              </FormControl>
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <FormControl>
+                <FormLabel>Weight</FormLabel>
+                <Input size="sm"
+                // defaultValue="UI Developer" 
+                />
+              </FormControl>
+              <FormControl sx={{ flexGrow: 1 }}>
+                <FormLabel>Height</FormLabel>
+                <Input
+                  size="sm"
+                  type="email"
+                  // startDecorator={<EmailRoundedIcon />}
+                  placeholder="email"
+                  // defaultValue="siriwatk@test.com"
+                  sx={{ flexGrow: 1 }}
+                />
+              </FormControl>
+            </Stack>
+            <div>
+              <CountrySelector />
+            </div>
+            <div>
+              <FormControl sx={{ display: { sm: 'contents' } }}>
+                <FormLabel>Age</FormLabel>
+                <Select
+                  size="sm"
+                  startDecorator={<PersonSearchIcon />}
+                  defaultValue="1"
+                >
+                  <Option value="1">
+                    Youth{' '}
+                    <Typography textColor="text.tertiary" ml={0.5}>
+                      - (0 - 19)
+                    </Typography>
+                  </Option>
+                  <Option value="2">
+                    Young Adult{' '}
+                    <Typography textColor="text.tertiary" ml={0.5}>
+                      — (17 - 30)
+                    </Typography>
+                  </Option>
+                  <Option value="1">
+                    Middle Aged Adults{' '}
+                    <Typography textColor="text.tertiary" ml={0.5}>
+                      — (31 - 45)
+                    </Typography>
+                  </Option>
+                  <Option value="1">
+                    Old Adults{' '}
+                    <Typography textColor="text.tertiary" ml={0.5}>
+                      — Above 45
+                    </Typography>
+                  </Option>
+                </Select>
+              </FormControl>
+            </div>
+          </Stack>
+        </Stack>
+        <Stack
+          direction="column"
+          spacing={2}
+          sx={{ display: { xs: 'flex', md: 'none' }, my: 1 }}
+        >
+          <Stack direction="row" spacing={2}>
+            <Stack direction="column" spacing={1}>
+              <AspectRatio
+                ratio="1"
+                maxHeight={108}
+                sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                  loading="lazy"
+                  alt=""
+                />
+              </AspectRatio>
+              <IconButton
+                aria-label="upload new picture"
+                size="sm"
+                variant="outlined"
+                color="neutral"
+                sx={{
+                  bgcolor: 'background.body',
+                  position: 'absolute',
+                  zIndex: 2,
+                  borderRadius: '50%',
+                  left: 85,
+                  top: 180,
+                  boxShadow: 'sm',
+                }}
+              >
+                <EditRoundedIcon />
+              </IconButton>
+            </Stack>
+            <Stack spacing={1} sx={{ flexGrow: 1 }}>
+              <FormLabel>Name</FormLabel>
+              <FormControl
+                sx={{
+                  display: {
+                    sm: 'flex-column',
+                    md: 'flex-row',
+                  },
+                  gap: 2,
+                }}
+              >
+                <Input size="sm" placeholder="First name" />
+                <Input size="sm" placeholder="Last name" />
+              </FormControl>
+            </Stack>
+          </Stack>
+          <FormControl>
+            <FormLabel>Role</FormLabel>
+            <Input size="sm" defaultValue="UI Developer" />
+          </FormControl>
+          <FormControl sx={{ flexGrow: 1 }}>
+            <FormLabel>Email</FormLabel>
+            <Input
+              size="sm"
+              type="email"
+              startDecorator={<EmailRoundedIcon />}
+              placeholder="email"
+              defaultValue="siriwatk@test.com"
+              sx={{ flexGrow: 1 }}
+            />
+          </FormControl>
+          {/* <div>
+              <CountrySelector />
+            </div> */}
+          <div>
+            <FormControl sx={{ display: { sm: 'contents' } }}>
+              <FormLabel>Timezone</FormLabel>
+              <Select
+                size="sm"
+                startDecorator={<AccessTimeFilledRoundedIcon />}
+                defaultValue="1"
+              >
+                <Option value="1">
+                  Indochina Time (Bangkok){' '}
+                  <Typography textColor="text.tertiary" ml={0.5}>
+                    — GMT+07:00
+                  </Typography>
+                </Option>
+                <Option value="2">
+                  Indochina Time (Ho Chi Minh City){' '}
+                  <Typography textColor="text.tertiary" ml={0.5}>
+                    — GMT+07:00
+                  </Typography>
+                </Option>
+              </Select>
+            </FormControl>
+          </div>
+        </Stack>
+        <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+          <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+            <Button size="sm" variant="outlined" color="neutral">
+              Cancel
+            </Button>
+            <Button size="sm" variant="solid">
+              Save
+            </Button>
+          </CardActions>
+        </CardOverflow>
+      </Card>
+      <Card>
+        <Box sx={{ mb: 1 }}>
+          <Typography level="title-md">Edit your Goals!</Typography>
+          <Typography level="body-sm">
+            Change or add your goals
+          </Typography>
+        </Box>
+        <Divider />
+        <Stack spacing={2} sx={{ my: 1 }}>
 
-      {showForm && (
-        <form onSubmit={handleSubmit}>
-        <TextField fullWidth label="First Name" name="firstName" value={profileInfo.firstName} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Last Name" name="lastName" value={profileInfo.lastName} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Preferred Name" name="preferredName" value={profileInfo.preferredName} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="User Name" name="userName" value={profileInfo.userName} onChange={handleChange} margin="normal" />
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Gender</InputLabel>
-          <Select name="gender" value={profileInfo.gender} onChange={handleChange} label="Gender">
-            <MenuItem value="Male">Male</MenuItem>
-            <MenuItem value="Female">Female</MenuItem>
-            <MenuItem value="Other">Other</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField fullWidth label="Country" name="country" value={profileInfo.country} onChange={handleChange} margin="normal" />
-        <TextField fullWidth label="Occupation" name="occupation" value={profileInfo.occupation} onChange={handleChange} margin="normal" />
-        <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
-          Update Profile
-        </Button>
-      </form>
-        
-        
-      )}
-    </Box>
-  );
-};
+          <FormControl size="sm">
+            <FormLabel>Choose your goal</FormLabel>
+            <Select
+              // value={selectedGoal}
+              onChange={(e) => setSelectedGoal(e.target.value)}
+            >
+              <MenuItem value="">None</MenuItem>
+              <MenuItem value="Weight Loss">Weight Loss</MenuItem>
+              <MenuItem value="Muscle Gain">Muscle Gain</MenuItem>
+              <MenuItem value="Endurance Training">Endurance Training</MenuItem>
+              <MenuItem value="Stretch more">Stretch more</MenuItem>
+              <MenuItem value="Run a 5K">Run a 5K</MenuItem>
+              <MenuItem value="Mobility">Mobility</MenuItem>
+            </Select>
+          </FormControl>
+          <Textarea
+            size="sm"
+            minRows={2}
+            sx={{ mt: 1.5 }}
+            defaultValue="Details"
+          />
+          <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
+            275 characters left
+          </FormHelperText>
+        </Stack>
+        <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+          <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+            <Button size="sm" variant="outlined" color="neutral">
+              Cancel
+            </Button>
+            <Button size="sm" variant="solid">
+              Save
+            </Button>
+          </CardActions>
+        </CardOverflow>
+      </Card>
 
-export default Profile;
+    </Stack>
 
+  )
+}

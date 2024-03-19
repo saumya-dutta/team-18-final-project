@@ -1,6 +1,6 @@
 describe('empty spec', () => {
   it('can view the home page', () => {
     cy.visit('/');
-    cy.contains('Sign In');
+    cy.contains('SignIn');
   });
 });
