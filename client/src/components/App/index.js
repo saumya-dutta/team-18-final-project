@@ -83,8 +83,8 @@ function App() {
                       sx={
                         {
                           // background: '#FFFFFF',
-                          marginRight: 20,
-                          marginLeft: 20,
+                          // marginRight: 20,
+                          // marginLeft: 20,
                         }
                       }>
                       {item.text}

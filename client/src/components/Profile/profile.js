@@ -31,6 +31,8 @@ import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRound
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MenuItem from '@mui/joy/MenuItem';
 
+import Goals from './goals'
+
 // import DropZone from './DropZone';
 // import FileUpload from './FileUpload';
 import CountrySelector from './CountrySelector';
@@ -42,20 +44,24 @@ const serverURL = ""
 export default function Profile() {
   const [selectedGoal, setSelectedGoal] = React.useState("");
   const [userData, setUserData] = React.useState({
+    userID: '',
     first_name: '',
     last_name: '',
     email: '',
     weight: '',
     height: '',
     country: '',
-    age: ''
+    age: '',
+    goal: '',
+    goal_description: ''
   });
+  const [isModified, setIsModified] = React.useState(false);
+
 
   React.useEffect(() => {
     loadUserSettings({ email: 'okay@okay.com' });
   }, [])
 
-  //to do: api returning 403 forbidden error - fix this
   const serverURL = ""
 
   const callApiLoadUserSettings = async (serverURL, email) => {
@@ -87,6 +93,8 @@ export default function Profile() {
     }
   }
 
+  
+
 
   const loadUserSettings = ({ email }) => {
     callApiLoadUserSettings(serverURL, email)
@@ -95,7 +103,7 @@ export default function Profile() {
         var parsed = JSON.parse(res.express);
         console.log("callApiLoadUserSettings parsed: ", parsed);
         setUserData(parsed[0]);
-        // console.log(userData);
+        console.log(userData);
       });
   }
 
@@ -110,6 +118,42 @@ export default function Profile() {
       return '4'; // Corresponds to 'Old Adults'
     }
   };
+
+  
+  // Function to handle changes in form fields
+  const handleInputChange = (e, fieldName) => {
+    const { value } = e.target;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [fieldName]: value
+    }));
+    setIsModified(true);
+  };
+
+    // Function to handle saving user data
+    const handleSave = async () => {
+      if (isModified) {
+        try {
+          const response = await fetch(`${serverURL}/api/user/update`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+          });
+          if (response.ok) {
+            // Data saved successfully
+            setIsModified(false);
+            console.log('User data updated successfully');
+          } else {
+            // Error while saving data
+            console.error('Failed to update user data');
+          }
+        } catch (error) {
+          console.error('Error updating user data:', error);
+        }
+      }
+    };
 
   return (
     <Stack
@@ -126,7 +170,7 @@ export default function Profile() {
         <Box sx={{ mb: 1 }}>
           <Typography level="title-md">Personal info</Typography>
           <Typography level="body-sm">
-            Customize how your profile here!
+            Customize your profile here!
           </Typography>
         </Box>
         <Divider />
@@ -172,9 +216,13 @@ export default function Profile() {
               <FormLabel>Name</FormLabel>
               <FormControl
                 sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
-              >
-                <Input size="sm" placeholder="First name" value={userData.first_name} />
-                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} value={userData.last_name} />
+              > 
+                <FormControl>
+                <Input size="sm" placeholder="First name" value={userData.first_name} disabled/>
+                </FormControl>
+                <FormControl>
+                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} value={userData.last_name} disabled/>
+                </FormControl>
               </FormControl>
             </Stack>
             <FormControl sx={{ flexGrow: 1 }}>
@@ -187,29 +235,33 @@ export default function Profile() {
                 value={userData.email}
                 // defaultValue="okay@okay.com"
                 sx={{ flexGrow: 1 }}
+                disabled
               />
             </FormControl>
             <Stack direction="row" spacing={2}>
               <FormControl>
-                <FormLabel>Weight</FormLabel>
+                <FormLabel>Weight (kg)</FormLabel>
                 <Input size="sm"
                   value={userData.weight}
+                  onChange={(e) => handleInputChange(e, 'weight')}
                 />
               </FormControl>
               <FormControl sx={{ flexGrow: 1 }}>
-                <FormLabel>Height</FormLabel>
+                <FormLabel>Height (cm) </FormLabel>
                 <Input
                   size="sm"
                   // startDecorator={<EmailRoundedIcon />}
                   // placeholder="email"
                   // defaultValue="48"
                   value={userData.height}
+                  onChange={(e) => handleInputChange(e, 'height')}
                   sx={{ flexGrow: 1 }}
+
                 />
               </FormControl>
             </Stack>
             <div>
-              <CountrySelector />
+              <CountrySelector userCountry={userData.country}/>
             </div>
             <div>
               <FormControl sx={{ display: { sm: 'contents' } }}>
@@ -258,63 +310,17 @@ export default function Profile() {
         </Stack>
         <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
           <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-            <Button size="sm" variant="outlined" color="neutral">
+            {/* <Button size="sm" variant="outlined" color="neutral">
               Cancel
-            </Button>
-            <Button size="sm" variant="solid">
+            </Button> */}
+            <Button size="sm" variant="solid" onClick={handleSave}>
               Save
             </Button>
           </CardActions>
         </CardOverflow>
       </Card>
 
-      {/* GOALS CARD */}
-      <Card>
-        <Box sx={{ mb: 1 }}>
-          <Typography level="title-md">Edit your Goals!</Typography>
-          <Typography level="body-sm">
-            Change or add your goals
-          </Typography>
-        </Box>
-        <Divider />
-        <Stack spacing={2} sx={{ my: 1 }}>
-
-          <FormControl size="sm">
-            <FormLabel>Choose your goal</FormLabel>
-            <Select
-              // value={selectedGoal}
-              onChange={(e) => setSelectedGoal(e.target.value)}
-            >
-              <MenuItem value="">None</MenuItem>
-              <MenuItem value="Weight Loss">Weight Loss</MenuItem>
-              <MenuItem value="Muscle Gain">Muscle Gain</MenuItem>
-              <MenuItem value="Endurance Training">Endurance Training</MenuItem>
-              <MenuItem value="Stretch more">Stretch more</MenuItem>
-              <MenuItem value="Run a 5K">Run a 5K</MenuItem>
-              <MenuItem value="Mobility">Mobility</MenuItem>
-            </Select>
-          </FormControl>
-          <Textarea
-            size="sm"
-            minRows={2}
-            sx={{ mt: 1.5 }}
-            defaultValue="Details"
-          />
-          <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
-            275 characters left
-          </FormHelperText>
-        </Stack>
-        <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-          <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-            <Button size="sm" variant="outlined" color="neutral">
-              Cancel
-            </Button>
-            <Button size="sm" variant="solid">
-              Save
-            </Button>
-          </CardActions>
-        </CardOverflow>
-      </Card>
+      <Goals userGoal={userData.goal} userGoalDesc={userData.goal_description} userID={userData.userID}/>
 
     </Stack>
 

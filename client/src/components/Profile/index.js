@@ -109,9 +109,6 @@ export default function ProfilePage() {
             <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={1}>
               Plan
             </Tab>
-            <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={2}>
-              Billing
-            </Tab>
           </TabList>
         </Tabs>
       </Box>

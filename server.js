@@ -44,7 +44,7 @@ app.post('/api/user/email', (req, res) => {
   connection.end();
 });
 
-// Endpoint to get all users (just for testing)
+// Endpoint to get all users (just for testing // cleanup b4 submission!)
 app.get('/api/user', (req, res) => {
   const connection = mysql.createConnection(config);
   // const email = req.body.email;
@@ -61,41 +61,40 @@ app.get('/api/user', (req, res) => {
   connection.end();
 });
 
-// Endpoint to add user data
-// app.post('/api/signup', (req, res) => {
-//   const connection = mysql.createConnection(config);
-//   const { email, first_name, last_name, password, country, age } = req.body;
-//   const query = 'INSERT INTO `user` (email, first_name, last_name, password, country, age) VALUES (?, ?, ?, ?, ?, ?)';
-//   connection.query(query, [email, first_name, last_name, password, country, age], (err, results) => {
-//     if (err) {
-//       console.error('Error adding user: ' + err.stack);
-//       res.status(500).send('Error adding user');
-//       return;
-//     }
-//     res.status(201).send('User added successfully');
-//   });
-// });
+
+// Endpoint to update user data
+app.put('/api/user/update', (req, res) => {
+  const connection = mysql.createConnection(config);
+  const { userID, weight, height } = req.body;
+  const query = 'UPDATE s39dutta.user SET weight = ?, height = ? WHERE userID = ?';
+  connection.query(query, [weight, height, userID], (err, results) => {
+    if (err) {
+      console.error('Error updating user data:', err);
+      res.status(500).send('Error updating user data');
+      return;
+    }
+    console.log('User data updated successfully');
+    res.sendStatus(200);
+  });
+});
+
+// Endpoint to update user goals
+app.put('/api/user/goals/update', (req, res) => {
+  const connection = mysql.createConnection(config);
+  const { userID, goal, goal_description } = req.body;
+  const query = 'UPDATE s39dutta.user SET goal = ?, goal_description = ? WHERE userID = ?';
+  connection.query(query, [goal, goal_description, userID], (err, results) => {
+    if (err) {
+      console.error('Error updating user data:', err);
+      res.status(500).send('Error updating user data');
+      return;
+    }
+    console.log('User data updated successfully');
+    res.sendStatus(200);
+  });
+});
 
 
-// Endpoint to update user data by user ID
-// app.put('/user/:userID', (req, res) => {
-//   const connection = mysql.createConnection(config);
-//   const userID = req.params.userID;
-//   const { email, first_name, last_name, password, country, age } = req.body;
-//   const query = 'UPDATE `user` SET email = ?, first_name = ?, last_name = ?, password = ?, country = ?, age = ? WHERE userID = ?';
-//   connection.query(query, [email, first_name, last_name, password, country, age, userID], (err, results) => {
-//     if (err) {
-//       console.error('Error updating user data: ' + err.stack);
-//       res.status(500).send('Error updating user data');
-//       return;
-//     }
-//     if (results.affectedRows === 0) {
-//       res.status(404).send('User not found');
-//       return;
-//     }
-//     res.send('User data updated successfully');
-//   });
-// });
 
 // Start server
 app.listen(PORT, () => {
