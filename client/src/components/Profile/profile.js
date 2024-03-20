@@ -40,51 +40,26 @@ const serverURL = ""
 
 
 export default function Profile() {
-
-
   const [selectedGoal, setSelectedGoal] = React.useState("");
-  // React.useEffect(() => {
-  //   loadHelloWorld({ email: 'okay@okay.com' });
-  // }, [])
+  const [userData, setUserData] = React.useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    weight: '',
+    height: '',
+    country: '',
+    age: ''
+  });
+
+  React.useEffect(() => {
+    loadUserSettings({ email: 'okay@okay.com' });
+  }, [])
 
   //to do: api returning 403 forbidden error - fix this
   const serverURL = ""
-  const callHelloWorld = async (serverURL) => {
-    const url = serverURL + "/api/hello";
-
-    console.log(url);
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    });
-
-    if (!response.ok) {
-      console.log(response);
-      throw new Error('Failed to fetch hello world');
-    }
-
-    try {
-      const body = await response.json();
-      console.log("response: ", body);
-      return body;
-    } catch (error) {
-      console.error('Error parsing JSON:', error);
-      throw new Error('Failed to parse server response');
-    }
-  }
-  const loadHelloWorld = () => {
-    callHelloWorld(serverURL)
-      .then(res => {
-        console.log("callHelloWorld returned: ", res)
-        var parsed = JSON.parse(res.express);
-        console.log("callHelloWorld parsed: ", parsed);
-      });
-  }
 
   const callApiLoadUserSettings = async (serverURL, email) => {
-    const url = serverURL + "/user/email";
+    const url = serverURL + "/api/user/email";
 
     console.log(url);
     const response = await fetch(url, {
@@ -119,8 +94,22 @@ export default function Profile() {
         console.log("callApiLoadUserSettings returned: ", res)
         var parsed = JSON.parse(res.express);
         console.log("callApiLoadUserSettings parsed: ", parsed);
+        setUserData(parsed[0]);
+        // console.log(userData);
       });
   }
+
+  const mapAgeToOption = (age) => {
+    if (age >= 0 && age <= 19) {
+      return '1'; // Corresponds to 'Youth'
+    } else if (age >= 17 && age <= 30) {
+      return '2'; // Corresponds to 'Young Adult'
+    } else if (age >= 31 && age <= 45) {
+      return '3'; // Corresponds to 'Middle Aged Adults'
+    } else {
+      return '4'; // Corresponds to 'Old Adults'
+    }
+  };
 
   return (
     <Stack
@@ -137,9 +126,8 @@ export default function Profile() {
         <Box sx={{ mb: 1 }}>
           <Typography level="title-md">Personal info</Typography>
           <Typography level="body-sm">
-            Customize how your profile information will apper to the networks.
+            Customize how your profile here!
           </Typography>
-          {/* <button onClick={console.log(loadUserSettings({ email: 'okay@okay.com' }))}>Test Endpoint</button> */}
         </Box>
         <Divider />
         <Stack
@@ -153,14 +141,15 @@ export default function Profile() {
               maxHeight={200}
               sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
             >
+              
               <img
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                src="https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/exercise-circle-orange-512.png"
+                srcSet="https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/exercise-circle-orange-512.png"
                 loading="lazy"
                 alt=""
               />
             </AspectRatio>
-            <IconButton
+            {/* <IconButton
               aria-label="upload new picture"
               size="sm"
               variant="outlined"
@@ -174,9 +163,9 @@ export default function Profile() {
                 top: 170,
                 boxShadow: 'sm',
               }}
-            >
-              <EditRoundedIcon />
-            </IconButton>
+            > */}
+              {/* <EditRoundedIcon /> */}
+            {/* </IconButton> */}
           </Stack>
           <Stack spacing={2} sx={{ flexGrow: 1 }}>
             <Stack spacing={1}>
@@ -184,37 +173,37 @@ export default function Profile() {
               <FormControl
                 sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
               >
-                <Input size="sm" placeholder="First name" value="Saumya"/>
-                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} value="Dutta"/>
+                <Input size="sm" placeholder="First name" value={userData.first_name} />
+                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} value={userData.last_name} />
               </FormControl>
             </Stack>
-              <FormControl sx={{ flexGrow: 1 }}>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  size="sm"
-                  type="email"
-                  startDecorator={<EmailRoundedIcon />}
-                  placeholder="email"
-                  defaultValue="okay@okay.com"
-                  sx={{ flexGrow: 1 }}
-                />
-              </FormControl>
+            <FormControl sx={{ flexGrow: 1 }}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                size="sm"
+                type="email"
+                startDecorator={<EmailRoundedIcon />}
+                placeholder="email"
+                value={userData.email}
+                // defaultValue="okay@okay.com"
+                sx={{ flexGrow: 1 }}
+              />
+            </FormControl>
             <Stack direction="row" spacing={2}>
               <FormControl>
                 <FormLabel>Weight</FormLabel>
                 <Input size="sm"
-                value="38" 
+                  value={userData.weight}
                 />
               </FormControl>
               <FormControl sx={{ flexGrow: 1 }}>
                 <FormLabel>Height</FormLabel>
                 <Input
                   size="sm"
-                  // type="email"
                   // startDecorator={<EmailRoundedIcon />}
                   // placeholder="email"
                   // defaultValue="48"
-                  value="48"
+                  value={userData.height}
                   sx={{ flexGrow: 1 }}
                 />
               </FormControl>
@@ -228,7 +217,7 @@ export default function Profile() {
                 <Select
                   size="sm"
                   startDecorator={<PersonSearchIcon />}
-                  defaultValue="1"
+                  value={mapAgeToOption(userData.age)}
                 >
                   <Option value="1">
                     Youth{' '}
@@ -242,13 +231,13 @@ export default function Profile() {
                       — (17 - 30)
                     </Typography>
                   </Option>
-                  <Option value="1">
+                  <Option value="3">
                     Middle Aged Adults{' '}
                     <Typography textColor="text.tertiary" ml={0.5}>
                       — (31 - 45)
                     </Typography>
                   </Option>
-                  <Option value="1">
+                  <Option value="4">
                     Old Adults{' '}
                     <Typography textColor="text.tertiary" ml={0.5}>
                       — Above 45
@@ -264,95 +253,8 @@ export default function Profile() {
           spacing={2}
           sx={{ display: { xs: 'flex', md: 'none' }, my: 1 }}
         >
-          <Stack direction="row" spacing={2}>
-            <Stack direction="column" spacing={1}>
-              <AspectRatio
-                ratio="1"
-                maxHeight={108}
-                sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                  loading="lazy"
-                  alt=""
-                />
-              </AspectRatio>
-              <IconButton
-                aria-label="upload new picture"
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                sx={{
-                  bgcolor: 'background.body',
-                  position: 'absolute',
-                  zIndex: 2,
-                  borderRadius: '50%',
-                  left: 85,
-                  top: 180,
-                  boxShadow: 'sm',
-                }}
-              >
-                <EditRoundedIcon />
-              </IconButton>
-            </Stack>
-            <Stack spacing={1} sx={{ flexGrow: 1 }}>
-              <FormLabel>Name</FormLabel>
-              <FormControl
-                sx={{
-                  display: {
-                    sm: 'flex-column',
-                    md: 'flex-row',
-                  },
-                  gap: 2,
-                }}
-              >
-                <Input size="sm" placeholder="First name" />
-                <Input size="sm" placeholder="Last name" />
-              </FormControl>
-            </Stack>
-          </Stack>
-          <FormControl>
-            {/* <FormLabel>Role</FormLabel> */}
-            {/* <Input size="sm" defaultValue="UI Developer" /> */}
-          </FormControl>
-          <FormControl sx={{ flexGrow: 1 }}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              size="sm"
-              type="email"
-              startDecorator={<EmailRoundedIcon />}
-              placeholder="email"
-              defaultValue="siriwatk@test.com"
-              sx={{ flexGrow: 1 }}
-            />
-          </FormControl>
-          {/* <div>
-              <CountrySelector />
-            </div> */}
-          <div>
-            <FormControl sx={{ display: { sm: 'contents' } }}>
-              <FormLabel>Timezone</FormLabel>
-              <Select
-                size="sm"
-                startDecorator={<AccessTimeFilledRoundedIcon />}
-                defaultValue="1"
-              >
-                <Option value="1">
-                  Indochina Time (Bangkok){' '}
-                  <Typography textColor="text.tertiary" ml={0.5}>
-                    — GMT+07:00
-                  </Typography>
-                </Option>
-                <Option value="2">
-                  Indochina Time (Ho Chi Minh City){' '}
-                  <Typography textColor="text.tertiary" ml={0.5}>
-                    — GMT+07:00
-                  </Typography>
-                </Option>
-              </Select>
-            </FormControl>
-          </div>
+
+
         </Stack>
         <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
           <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
@@ -365,6 +267,8 @@ export default function Profile() {
           </CardActions>
         </CardOverflow>
       </Card>
+
+      {/* GOALS CARD */}
       <Card>
         <Box sx={{ mb: 1 }}>
           <Typography level="title-md">Edit your Goals!</Typography>
