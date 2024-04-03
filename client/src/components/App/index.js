@@ -14,6 +14,7 @@ import Header from '../LandingPage/header.js';
 import RunCircleIcon from '@mui/icons-material/RunCircle';
 import SignIn from '../SignInAndSignUp';
 import { withFirebase } from '../Firebase';
+import Home from '../Home/index.js'
 // import { useNavigate } from 'react-router-dom';
 
 
@@ -113,7 +114,7 @@ function App() {
           <Routes>
             {isSignedIn ? (
               <>
-                <Route path="/" element={<Navigate replace to="/Food" />} />
+                <Route path="/" element={<Home />} />
                 {/* <Route path="/Home" element={< />} /> */}
                 <Route path="/Food" element={<Food />} />
                 <Route path="/Activity" element={<FitnessGoals />} />

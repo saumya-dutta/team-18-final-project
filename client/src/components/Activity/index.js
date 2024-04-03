@@ -40,10 +40,12 @@ import Exercises from './Exercises';
 import SleepPage from './SleepPage';
 
 import WorkoutRoutinePage from './Routine';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function App() {
     const [exercises, setExercises] = useState([]);
     const [activeTab, setActiveTab] = React.useState(0);
+    const navigate = useNavigate();
 
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
@@ -68,7 +70,7 @@ export default function App() {
                             href="#some-link"
                             aria-label="Home"
                         >
-                            <HomeRoundedIcon />
+                            <HomeRoundedIcon onClick={() => navigate('/')}/>
                         </Link>
                         <Typography color="primary" fontWeight={500} fontSize={12}>
                             Activity
@@ -112,9 +114,9 @@ export default function App() {
                         <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={1}>
                             Routines
                         </Tab>
-                        <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={2}>
+                        {/* <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={2}>
                             Sleep
-                        </Tab>
+                        </Tab> */}
                     </TabList>
                 </Tabs>
             </Box>
@@ -156,9 +158,9 @@ export default function App() {
                         <WorkoutRoutinePage/>
                     </Card>
                 )}
-                {activeTab === 2 && (
+                {/* {activeTab === 2 && (
                     <SleepPage/>
-                )}
+                )} */}
                 
             </Stack>
         </Box>

@@ -31,6 +31,7 @@ import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MenuItem from '@mui/joy/MenuItem';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 // import DropZone from './DropZone';
 // import FileUpload from './FileUpload';
@@ -41,6 +42,8 @@ import Profile from './profile';
 export default function ProfilePage() {
   const [selectedGoal, setSelectedGoal] = React.useState("");
   const [activeTab, setActiveTab] = React.useState(0);
+  const navigate = useNavigate();
+
 
   return (
     <Box sx={{ flex: 1, width: '100%' }}>
@@ -65,7 +68,7 @@ export default function ProfilePage() {
               href="#some-link"
               aria-label="Home"
             >
-              <HomeRoundedIcon />
+              <HomeRoundedIcon onClick={() => navigate('/')}/>
             </Link>
             <Typography color="primary" fontWeight={500} fontSize={12}>
               Settings

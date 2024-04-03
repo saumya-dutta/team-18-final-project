@@ -10,7 +10,7 @@ const serverURL = "";
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    // mode: 'dark',
   },
 });
 
@@ -54,15 +54,15 @@ const Home = () => {
             variant={"h3"}
           >
 
-            {mode === 0 ? (
-              <React.Fragment>
+            {/* {mode === 0 ? ( */}
+              {/* <React.Fragment>
                 Welcome to MSci245!
-              </React.Fragment>
-            ) : (
+              </React.Fragment> */}
+            {/* ) : ( */}
               <React.Fragment>
                 Welcome back!
               </React.Fragment>
-            )}
+            {/* )} */}
 
           </Typography>
 
