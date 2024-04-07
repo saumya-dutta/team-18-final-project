@@ -38,6 +38,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import CountrySelector from './CountrySelector';
 // import EditorToolbar from './EditorToolbar';
 import Profile from './profile';
+import Plan from './userPlan';
 
 export default function ProfilePage() {
   const [selectedGoal, setSelectedGoal] = React.useState("");
@@ -127,6 +128,9 @@ export default function ProfilePage() {
       >
         {activeTab === 0 && (
           <Profile/>
+        )}
+        {activeTab === 1 && (
+          <Plan/>
         )}
         
         
