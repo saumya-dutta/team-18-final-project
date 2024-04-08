@@ -1,171 +1,229 @@
-import React, { useState } from 'react';
-import {
-  Button,
-  TextField,
-  Typography,
-  Paper,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function App() {
-  const [routines, setRoutines] = useState([]);
-  const [newRoutineName, setNewRoutineName] = useState('');
-  const [newExerciseName, setNewExerciseName] = useState('');
-  const [weight, setWeight] = useState('');
-  const [reps, setReps] = useState('');
-  const [sets, setSets] = useState('');
-  const [selectedRoutineIndex, setSelectedRoutineIndex] = useState(null);
+function WorkoutPage() {
+  const [workouts, setWorkouts] = useState([]);
+  const [openAddWorkoutModal, setOpenAddWorkoutModal] = useState(false);
+  const [workoutName, setWorkoutName] = useState('');
+  const [exerciseType, setExerciseType] = useState('');
+  const [openDetailsModal, setOpenDetailsModal] = useState(false);
+  const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState(null);
+  const serverURL = ""; // Replace with your actual server URL
 
-  const handleAddRoutine = () => {
-    if (newRoutineName.trim() !== '') {
-      setRoutines([...routines, { name: newRoutineName, exercises: [] }]);
-      setNewRoutineName('');
-    }
-  };
+  useEffect(() => {
+    const email = 'okay@okay.com'; // Replace with the actual email or logic to retrieve it
+    loadWorkouts({ email });
+  }, []);
 
-  const handleAddExercise = () => {
-    if (selectedRoutineIndex !== null && newExerciseName.trim() !== '') {
-      const updatedRoutines = [...routines];
-      updatedRoutines[selectedRoutineIndex].exercises.push({
-        name: newExerciseName,
-        weight,
-        reps,
-        sets,
+  const callApiGetWorkouts = async (email) => {
+    const url = `${serverURL}/api/user/workouts/`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email })
       });
-      setRoutines(updatedRoutines);
-      setNewExerciseName('');
-      setWeight('');
-      setReps('');
-      setSets('');
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user workouts');
+      }
+
+      const body = await response.json();
+      return body;
+    } catch (error) {
+      console.error(error.message);
+      throw error;
     }
   };
 
-  const handleDeleteRoutine = (index) => {
-    const updatedRoutines = [...routines];
-    updatedRoutines.splice(index, 1);
-    setRoutines(updatedRoutines);
+  const loadWorkouts = async ({ email }) => {
+    try {
+      const res = await callApiGetWorkouts(email);
+      // Assuming the response directly contains the workouts array
+      // Adjust this logic based on your actual API response structure
+      // console.log("callApiGetWorkouts returned: ", res)
+      var parsed = JSON.parse(res.express);
+      console.log("callApiGetWorkouts parsed: ", parsed);
+      const workoutsData = parsed.map(workout => ({
+        ...workout,
+        name: workout.workout_title, // Map workout_title to name
+        exercises: JSON.parse(workout.exercises) // Parse the stringified exercises JSON
+      }));
+      setWorkouts(workoutsData);
+      // parsed.forEach(workout => {
+      //   workout.exercises = JSON.parse(workout.exercises);
+      // });
+      // setWorkouts(parsed || []);
+      console.log("callApiGetWorkouts setWorkouts: ", workouts);
+      
+
+      // setWorkouts(res.workouts || []);
+      // console.log(res.workouts);
+    } catch (error) {
+      console.error("Failed to load workouts:", error.message);
+    }
   };
 
-  const handleDeleteExercise = (routineIndex, exerciseIndex) => {
-    const updatedRoutines = [...routines];
-    updatedRoutines[routineIndex].exercises.splice(exerciseIndex, 1);
-    setRoutines(updatedRoutines);
+  const handleAddWorkout = () => {
+    if (workoutName.trim() !== '' && exerciseType.trim() !== '') {
+      setWorkouts([...workouts, { name: workoutName, type: exerciseType, exercises: [] }]);
+      setWorkoutName('');
+      setExerciseType('');
+      setOpenAddWorkoutModal(false);
+    }
+  };
+
+  const handleDeleteWorkout = (index) => {
+    const updatedWorkouts = [...workouts];
+    updatedWorkouts.splice(index, 1);
+    setWorkouts(updatedWorkouts);
+  };
+
+  const handleOpenDetailsModal = (index) => {
+    setSelectedWorkoutIndex(index);
+    setOpenDetailsModal(true);
+  };
+
+  const handleCloseDetailsModal = () => {
+    setOpenDetailsModal(false);
+    setSelectedWorkoutIndex(null);
+  };
+
+  const handleAddExerciseToWorkout = (exercise) => {
+    const updatedWorkouts = [...workouts];
+    const currentWorkout = updatedWorkouts[selectedWorkoutIndex];
+    if (currentWorkout) {
+      currentWorkout.exercises.push(exercise);
+      setWorkouts(updatedWorkouts);
+    }
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <Paper style={{ padding: 20, marginBottom: 20 }}>
-        <TextField
-          label="Routine Name"
-          value={newRoutineName}
-          onChange={(e) => setNewRoutineName(e.target.value)}
-          variant="outlined"
-          style={{ marginRight: 10 }}
-        />
-        <Button variant="contained" onClick={handleAddRoutine}>
-          Add Routine
-        </Button>
-      </Paper>
-      <div style={{ display: 'flex' }}>
-        <div style={{ marginRight: 20 }}>
-          <Typography variant="h6" gutterBottom>
-            Routines
-          </Typography>
-          <List>
-            {routines.map((routine, index) => (
-              <ListItem
-                key={index}
-                button
-                selected={selectedRoutineIndex === index}
-                onClick={() => setSelectedRoutineIndex(index)}
-              >
-                <ListItemText primary={routine.name} />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" onClick={() => handleDeleteRoutine(index)}>
+    <div>
+      <Button variant="contained" onClick={() => setOpenAddWorkoutModal(true)}>Add Workout</Button>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Workout Name</TableCell>
+              <TableCell>Exercise Type</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {workouts.map((workout, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Button onClick={() => handleOpenDetailsModal(index)}>{workout.name}</Button>
+                </TableCell>
+                <TableCell>{workout.type}</TableCell>
+                <TableCell>
+                  <IconButton onClick={() => handleDeleteWorkout(index)}>
                     <DeleteIcon />
                   </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
+                </TableCell>
+              </TableRow>
             ))}
-          </List>
-        </div>
-        {selectedRoutineIndex !== null && (
-          <div>
-            <Typography variant="h6" gutterBottom>
-              Exercises
-            </Typography>
-            <List>
-              {routines[selectedRoutineIndex].exercises.map((exercise, index) => (
-                <ListItem key={index}>
-                  <ListItemText
-                    primary={`${exercise.name} - Weight: ${exercise.weight}, Reps: ${exercise.reps}, Sets: ${exercise.sets}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton
-                      edge="end"
-                      onClick={() => handleDeleteExercise(selectedRoutineIndex, index)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-            </List>
-            <TextField
-              label="Exercise Name"
-              value={newExerciseName}
-              onChange={(e) => setNewExerciseName(e.target.value)}
-              variant="outlined"
-              style={{ marginRight: 10 }}
-            />
-            <FormControl variant="outlined" style={{ marginRight: 10 }}>
-              <InputLabel>Weight</InputLabel>
-              <Select
-                value={weight}
-                onChange={(e) => setWeight(e.target.value)}
-                label="Weight"
-              >
-                <MenuItem value="">None</MenuItem>
-                <MenuItem value={5}>5 lbs</MenuItem>
-                <MenuItem value={10}>10 lbs</MenuItem>
-                <MenuItem value={15}>15 lbs</MenuItem>
-                {/* Add more weight options as needed */}
-              </Select>
-            </FormControl>
-            <TextField
-              label="Reps"
-              value={reps}
-              onChange={(e) => setReps(e.target.value)}
-              variant="outlined"
-              style={{ marginRight: 10 }}
-            />
-            <TextField
-              label="Sets"
-              value={sets}
-              onChange={(e) => setSets(e.target.value)}
-              variant="outlined"
-              style={{ marginRight: 10 }}
-            />
-            <Button variant="contained" onClick={handleAddExercise}>
-              Add Exercise
-            </Button>
-          </div>
-        )}
-      </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {selectedWorkoutIndex !== null && (
+        <WorkoutDetailsModal
+          workout={workouts[selectedWorkoutIndex]}
+          open={openDetailsModal}
+          onClose={handleCloseDetailsModal}
+          onAddExercise={handleAddExerciseToWorkout}
+        />
+      )}
+      <Dialog open={openAddWorkoutModal} onClose={() => setOpenAddWorkoutModal(false)}>
+        <DialogTitle>Add New Workout</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Workout Name"
+            value={workoutName}
+            onChange={(e) => setWorkoutName(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Exercise Type"
+            value={exerciseType}
+            onChange={(e) => setExerciseType(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenAddWorkoutModal(false)}>Cancel</Button>
+          <Button onClick={handleAddWorkout} variant="contained" color="primary">Add</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
 
-export default App;
+function WorkoutDetailsModal({ workout, open, onClose, onAddExercise }) {
+  const [newExercise, setNewExercise] = useState({ name: '', weight: '', reps: '', sets: '' });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewExercise(prevState => ({ ...prevState, [name]: value }));
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAddExercise(newExercise);
+    setNewExercise({ name: '', weight: '', reps: '', sets: '' }); // Reset form
+  };
 
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{workout.name} Details</DialogTitle>
+      <DialogContent>
+        <Typography variant="h6">Exercises</Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Weight</TableCell>
+                <TableCell>Reps</TableCell>
+                <TableCell>Sets</TableCell>
+                <TableCell>Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {workout.exercises.map((exercise, idx) => (
+                <TableRow key={idx}>
+                  <TableCell>{exercise.name}</TableCell>
+                  <TableCell>{exercise.weight}</TableCell>
+                  <TableCell>{exercise.reps}</TableCell>
+                  <TableCell>{exercise.sets}</TableCell>
+                  <TableCell>
+                    {/* Potential future spot for a delete exercise button */}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
+          <TextField label="Name" name="name" value={newExercise.name} onChange={handleChange} fullWidth margin="normal" />
+          <TextField label="Weight" name="weight" value={newExercise.weight} onChange={handleChange} fullWidth margin="normal" />
+          <TextField label="Reps" name="reps" value={newExercise.reps} onChange={handleChange} fullWidth margin="normal" />
+          <TextField label="Sets" name="sets" value={newExercise.sets} onChange={handleChange} fullWidth margin="normal" />
+          <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px' }}>Add Exercise</Button>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Close</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+export default WorkoutPage;

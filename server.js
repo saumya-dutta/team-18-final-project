@@ -45,21 +45,21 @@ app.post('/api/user/email', (req, res) => {
 });
 
 // Endpoint to get all users (just for testing // cleanup b4 submission!)
-app.get('/api/user', (req, res) => {
-  const connection = mysql.createConnection(config);
-  // const email = req.body.email;
-  const sql = 'SELECT * FROM s39dutta.user';
-  connection.query(sql, (err, results, fields) => {
-    if (err) {
-      return console.error(err.message);
-    }
-    // console.log(results);
-		let string = JSON.stringify(results);
-		let obj = JSON.parse(string);
-		res.send({ express: string });
-  });
-  connection.end();
-});
+// app.get('/api/user', (req, res) => {
+//   const connection = mysql.createConnection(config);
+//   // const email = req.body.email;
+//   const sql = 'SELECT * FROM s39dutta.user';
+//   connection.query(sql, (err, results, fields) => {
+//     if (err) {
+//       return console.error(err.message);
+//     }
+//     // console.log(results);
+// 		let string = JSON.stringify(results);
+// 		let obj = JSON.parse(string);
+// 		res.send({ express: string });
+//   });
+//   connection.end();
+// });
 
 
 // Endpoint to update user data
@@ -92,6 +92,58 @@ app.put('/api/user/goals/update', (req, res) => {
     console.log('User data updated successfully');
     res.sendStatus(200);
   });
+});
+
+// Endpoint to get user plan
+app.post('/api/user/plan', (req, res) => {
+  let connection = mysql.createConnection(config);
+  const email = req.body.email;
+  const sql = 'SELECT plan from s39dutta.user where email = ?';
+  connection.query(sql, [email], (err, results, fields) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log("Loading User Result", results);
+    console.log(results);
+    let string = JSON.stringify(results);
+    let obj = JSON.parse(string);
+    res.send({ express: string });
+  });
+  connection.end();
+});
+
+// endpoint to get user's workouts and exercises
+app.post('/api/user/workouts/', (req, res) => {
+  let connection = mysql.createConnection(config);
+  const email = req.body.email;
+
+  // SQL query to retrieve workouts and exercises concatenated into one column
+  const sql = `
+  SELECT w.title AS workout_title,
+  JSON_ARRAYAGG(JSON_OBJECT('name', e.exerciseName, 'weight', e.weight, 'reps', e.reps, 'sets', e.sets)) AS exercises
+  FROM s39dutta.user u
+  JOIN s39dutta.workouts w ON u.userID = w.userID
+  LEFT JOIN s39dutta.exercises e ON w.workoutID = e.workoutID
+  WHERE u.email = ?
+  GROUP BY w.workoutID;
+  `;
+
+  // Execute the SQL query
+  connection.query(sql, [email], (err, results, fields) => {
+    if (err) {
+      return console.error(err.message);
+    }
+
+    console.log(results);
+
+    let string = JSON.stringify(results);
+    let obj = JSON.parse(string);
+    res.send({ express: string });
+
+    // Send the response with the workouts and exercises
+    // res.json(results);
+  });
+  connection.end();
 });
 
 

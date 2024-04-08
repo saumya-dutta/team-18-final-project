@@ -19,111 +19,103 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import MenuItem from '@mui/joy/MenuItem';
 
 export default function Plan(props) {
-    // the on changes for the input fields dont work - fix this!!!
-    const { userGoal, userGoalDesc, userID } = props;
-    const [selectedGoal, setSelectedGoal] = React.useState(userGoal);
-    const [goalDescription, setGoalDescription] = React.useState(userGoalDesc);
-    const [isModified, setIsModified] = React.useState(false);
-
+    const [userPlan, setUserPlan] = React.useState('');
 
     React.useEffect(() => {
-        if (userGoal) {
-            setSelectedGoal(userGoal);
-            console.log(userGoal);
-        } else {
-            setSelectedGoal("None");
-        }
-    }, [userGoal]);
+        loadUserPlan({ email: 'okay@okay.com' });
+    }, [])
 
-    const handleSave = () => {
-        // Check if the data has been modified
-        if (!isModified) {
-            console.log('No changes to save.');
-            return;
-        }
 
-        // Prepare the data to be sent in the request body
-        const data = {
-            userID: userID,
-            goal: selectedGoal,
-            description: goalDescription,
-        };
+    const serverURL = ""
 
-        // Send a PUT request to update the goals
-        fetch('/api/user/goals/update', {
-            method: 'PUT',
+    const callApiGetUserPlan = async (serverURL, email) => {
+        const url = serverURL + "/api/user/plan";
+
+        console.log(url);
+        const response = await fetch(url, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    console.log('User goals updated successfully');
-                    // Optionally, you can perform additional actions here after the goals are updated
-                    setIsModified(false); // Reset the modified state
-                } else {
-                    console.error('Failed to update user goals');
-                }
+            body: JSON.stringify({
+                email: email
             })
-            .catch((error) => {
-                console.error('Error updating user goals:', error);
+        });
+
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Failed to fetch user settings');
+        }
+
+        try {
+            const body = await response.json();
+            console.log("User plan: ", body);
+            return body;
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+            throw new Error('Failed to parse server response');
+        }
+    }
+
+
+
+
+    const loadUserPlan = ({ email }) => {
+        callApiGetUserPlan(serverURL, email)
+            .then(res => {
+                console.log("callApiGetUserPlan returned: ", res)
+                var parsed = JSON.parse(res.express);
+                console.log("callApiGetUserPlan parsed: ", parsed);
+                setUserPlan(parsed[0].plan);
+                console.log(userPlan);
             });
-    };
+    }
 
-    const handleGoalChange = (event) => {
-        setSelectedGoal(event.target.value);
-        setIsModified(true);
-    };
 
-    const handleDescriptionChange = (event) => {
-        setGoalDescription(event.target.value);
-        setIsModified(true);
-    };
 
     return (
         <div>
             <Card>
                 <Box sx={{ mb: 1 }}>
                     <Typography level="title-md">This is your current plan!</Typography>
-                    <Typography level="body-sm">
+                    {/* <Typography level="body-sm">
                         Upgrade your plan here
-                    </Typography>
+                    </Typography> */}
                 </Box>
                 <Divider />
                 <Stack spacing={2} sx={{ my: 1 }}>
-
-                    {/* <FormControl size="sm">
-                        <FormLabel>Choose your goal</FormLabel>
-                        <Select
-                            value={selectedGoal}
-                            onChange={(e) => setSelectedGoal(e.target.value)}
-                        >
-                            <Option value="None">None</Option>
-                            <Option value="Weight Loss">Weight Loss</Option>
-                            <Option value="Muscle Gain">Muscle Gain</Option>
-                            <Option value="Endurance Training">Endurance Training</Option>
-                            <Option value="Stretch more">Stretch more</Option>
-                            <Option value="Run a 5K">Run a 5K</Option>
-                            <Option value="Mobility">Mobility</Option>
-                        </Select>
-                    </FormControl> */}
-                    <Textarea
-                        size="sm"
-                        minRows={2}
-                        sx={{ mt: 1.5 }}
-                        // defaultValue="Details"
-                        value={userGoalDesc}
-                        // onChange={(e) => handleDescriptionChange(e.target.value)}
+                    <img
+                        src="https://images.pexels.com/photos/949131/pexels-photo-949131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                        // srcSet="https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/exercise-circle-orange-512.png"
+                        loading="lazy"
+                        alt=""
                     />
-                    <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
-                        275 characters left
-                    </FormHelperText>
+                    <Typography
+                        variant="soft"
+                        color="warning"
+                        startDecorator="🚨"
+                        fontSize="sm"
+                        level="h2"
+                        sx={{ '--Typography-gap': '0.5rem', p: 1 }}
+                    >
+                        {userPlan || 'Loading...'}
+                    </Typography>
+                    {/* <Typography variant="body1" level="h2">
+                        {userPlan || 'Loading...'}
+                    </Typography> */}
+                    <Divider />
+                    <Typography variant="body2" color="textSecondary">
+                        Upgrade your plan to access more features and benefits.
+                    </Typography>
+
+
                 </Stack>
                 <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
                     <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
 
-                        <Button size="sm" variant="solid" onClick={handleSave}>
+                        <Button size="sm" variant="solid"
+                        // onClick={handleSave}
+                        >
                             Save
                         </Button>
                     </CardActions>

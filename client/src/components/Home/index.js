@@ -1,92 +1,108 @@
 import * as React from 'react';
-
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles'
 import Grid from "@mui/material/Grid";
 import CssBaseline from '@mui/material/CssBaseline';
 import callApiLoadUserSettings from './callApiLoadUserSettings.js';
-const serverURL = "";
-
-
-const theme = createTheme({
-  palette: {
-    // mode: 'dark',
-  },
-});
-
+import Avatar from '@mui/joy/Avatar';
+import Box from '@mui/joy/Box';
+import Sheet from '@mui/joy/Sheet';
+import Stack from '@mui/joy/Stack';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import IconButton from '@mui/joy/IconButton';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Button from '@mui/joy/Button';
 
 const Home = () => {
-  const currentCount = 5;
+  const [userName, setUserName] = React.useState("");
+  const serverURL = ""
 
-
-  const [userID, setUserID] = React.useState(1);
-  const [mode, setMode] = React.useState(0);
-
-  
   React.useEffect(() => {
-    //loadUserSettings();
+    loadUserSettings({ email: 'okay@okay.com' });
   }, []);
-  
-  const loadUserSettings = () => {
-    callApiLoadUserSettings(serverURL, userID)
+
+  const callApiLoadUserSettings = async (serverURL, email) => {
+    const url = serverURL + "/api/user/email";
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch user settings');
+    }
+
+    try {
+      const body = await response.json();
+      return body;
+    } catch (error) {
+      throw new Error('Failed to parse server response');
+    }
+  }
+
+  const loadUserSettings = ({ email }) => {
+    callApiLoadUserSettings(serverURL, email)
       .then(res => {
-        //console.log("parsed: ", res[0].mode)
-        setMode(res[0].mode);
+        var parsed = JSON.parse(res.express);
+        setUserName(parsed[0].first_name + " " + parsed[0].last_name);
       });
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <div>
       <CssBaseline />
       <Grid
         container
-        spacing={0}
-        direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-        sx={{ 
-          minHeight: '100vh',
-          marginTop: theme.spacing(8),
-          marginLeft: theme.spacing(4)
-        }}
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: '50vh' }}
       >
-        <Grid item>
+        <Grid item xs={12} md={8} lg={6}>
+          <Box p={2}>
+            <Sheet
+              variant="outlined"
+              sx={{ p: 2 }}
+            >
+              <Stack spacing={2} direction="row" alignItems="center">
+                <Avatar>{Array.from(userName)[0]}</Avatar>
+                <Typography noWrap variant="h5">Welcome back, {userName}!</Typography>
+              </Stack>
+            </Sheet>
 
-          <Typography
-            variant={"h3"}
-          >
-
-            {/* {mode === 0 ? ( */}
-              {/* <React.Fragment>
-                Welcome to MSci245!
-              </React.Fragment> */}
-            {/* ) : ( */}
-              <React.Fragment>
-                Welcome back, (add endpoint for getting name)!
-              </React.Fragment>
-            {/* )} */}
-            <h1 style={{ marginBottom: "1rem" }}>Current streak</h1>
-      <div>
-        <p style={{ fontSize: "4rem", marginTop: "2rem", marginBottom: "0" }}>
-          <span aria-label="fire emoji" role="img">
-            🔥
-          </span>
-        </p>
-      </div>
-      <p style={{ fontSize: "2rem" }}>
-        {currentCount} day
-        {currentCount > 1 ? "s" : ""}
-      </p>
-
-          </Typography>
-
+            <Card sx={{ mt: 2 }}>
+              <CardContent>
+                <Typography variant="h6">Your current streak:</Typography>
+                <IconButton
+                  variant="plain"
+                  color="neutral"
+                  size="sm"
+                  sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
+                />
+                <AspectRatio minHeight="120px" maxHeight="200px">
+                  <img
+                    src="https://as2.ftcdn.net/v2/jpg/01/71/23/49/1000_F_171234990_cSNErNz2LkXTP7YxMNzRY3jDhz0laMa2.jpg"
+                    loading="lazy"
+                    alt=""
+                  />
+                </AspectRatio>
+                <Box mt={2} display="flex" alignItems="center" justifyContent="space-between">
+                  <Typography variant="body2">5 DAYS</Typography>
+                  <Typography variant="subtitle1" fontWeight="bold">check back in tomorrow!</Typography>
+                  
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </div>
   );
 }
-
-
-
 
 export default Home;
