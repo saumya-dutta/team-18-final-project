@@ -13,7 +13,7 @@ async function callApiLoadUserSettings(serverURL, userID) {
     if (response.status !== 200) throw Error(body.message);
     console.log("User settings: ", body);
     var parsed = JSON.parse(body.express);
-    //var parsed = [{ mode: 1}];
+    
     return parsed;
 }
 

@@ -33,10 +33,10 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MenuItem from '@mui/joy/MenuItem';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-// import DropZone from './DropZone';
-// import FileUpload from './FileUpload';
+
+
 import CountrySelector from './CountrySelector';
-// import EditorToolbar from './EditorToolbar';
+
 import Profile from './profile';
 import Plan from './userPlan';
 
@@ -50,7 +50,7 @@ export default function ProfilePage() {
     <Box sx={{ flex: 1, width: '100%' }}>
       <Box
         sx={{
-          // position: 'sticky',
+          
           top: { sm: -100, md: -110 },
           bgcolor: 'background.body',
           zIndex: 9995,

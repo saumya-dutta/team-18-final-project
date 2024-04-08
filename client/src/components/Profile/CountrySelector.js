@@ -37,7 +37,6 @@ export default function CountrySelector(props) {
         autoHighlight
         isOptionEqualToValue={(option, value) => option.code === value.code}
         value={selectedCountry}
-        // defaultValue={{ code: 'TH', label: 'Thailand', phone: '66' }}
         options={countries}
         renderOption={(optionProps, option) => (
           <AutocompleteOption {...optionProps}>

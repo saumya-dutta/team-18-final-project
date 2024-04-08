@@ -36,20 +36,20 @@ export default function Goals(props) {
     }, [userGoal]);
 
     const handleSave = () => {
-        // Check if the data has been modified
+        
         if (!isModified) {
             console.log('No changes to save.');
             return;
         }
 
-        // Prepare the data to be sent in the request body
+        
         const data = {
             userID: userID,
             goal: selectedGoal,
             description: goalDescription,
         };
 
-        // Send a PUT request to update the goals
+        
         fetch('/api/user/goals/update', {
             method: 'PUT',
             headers: {
@@ -60,8 +60,8 @@ export default function Goals(props) {
             .then((response) => {
                 if (response.ok) {
                     console.log('User goals updated successfully');
-                    // Optionally, you can perform additional actions here after the goals are updated
-                    setIsModified(false); // Reset the modified state
+                    
+                    setIsModified(false); 
                 } else {
                     console.error('Failed to update user goals');
                 }
@@ -112,9 +112,9 @@ export default function Goals(props) {
                         size="sm"
                         minRows={2}
                         sx={{ mt: 1.5 }}
-                        // defaultValue="Details"
+                        
                         value={userGoalDesc}
-                        // onChange={(e) => handleDescriptionChange(e.target.value)}
+                        
                     />
                     <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
                         275 characters left

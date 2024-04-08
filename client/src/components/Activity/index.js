@@ -114,9 +114,7 @@ export default function App() {
                         <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={1}>
                             Routines
                         </Tab>
-                        {/* <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={2}>
-                            Sleep
-                        </Tab> */}
+                        {}
                     </TabList>
                 </Tabs>
             </Box>

@@ -16,12 +16,12 @@ const WaterTrackerUI = () => {
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={2}>
-                {/* Upper Half with Wallpaper */}
+                {/* UPPERPART TO SEPERAT */}
                 <Grid item xs={12} sx={{
                     backgroundImage: 'url(https://images.unsplash.com/photo-1588250674913-e28f0351f855?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8ZHJpbmtpbmclMjB3YXRlcnxlbnwwfHwwfHx8MA%3D%3D)',
                     backgroundSize: 'cover',
                     filter: 'brightness(100%)',
-                    color: '#FFFFFF', // Set text color to pure white
+                    color: '#FFFFFF', 
                     height: '50vh',
                     display: 'flex',
                     flexDirection: 'column',
@@ -53,7 +53,7 @@ const WaterTrackerUI = () => {
                         {Math.round(progress)}% Achieved
                     </Typography>
                 </Grid>
-                {/* Lower Left Quarter - Past Week's Intake */}
+                {/* Lower*/}
                 <Grid item xs={6} sx={{ height: '50vh', overflow: 'auto', p: 2 }}>
                     <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#000000' }}>
                         Past Week's Intake
@@ -66,7 +66,7 @@ const WaterTrackerUI = () => {
                         </Box>
                     ))}
                 </Grid>
-                {/* Lower Right Quarter - Hydration Motivation */}
+                {/* Lower Right  */}
                 <Grid item xs={6} sx={{ height: '50vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: 2 }}>
                     <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#000000' }}>
                         Hydration Motivation

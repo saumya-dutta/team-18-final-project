@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [userName, setUserName] = React.useState("");
-  const serverURL = ""; // Make sure to replace this with your actual server URL
+  const serverURL = ""; 
   const navigate = useNavigate();
 
   React.useEffect(() => {

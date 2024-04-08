@@ -24,7 +24,7 @@ export default function LandingPage() {
             <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} style={{ background: '#FFA756' }}>
                 <Toolbar>
                     <IconButton
-                        // size="large"
+                        
                         edge="start"
                         color="inherit"
                         aria-label="menu"

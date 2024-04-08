@@ -15,7 +15,7 @@ const theme = createTheme({
       default: '#f5f5f5',
     },
   },
-  // Add other theme customizations here
+  
 });
 
 export default theme;

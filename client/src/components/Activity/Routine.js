@@ -8,7 +8,7 @@ function WorkoutPage() {
   const [workouts, setWorkouts] = useState([]);
   const [openAddWorkoutModal, setOpenAddWorkoutModal] = useState(false);
   const [workoutName, setWorkoutName] = useState('');
-  // const [exerciseType, setExerciseType] = useState('');
+  
   const [openDetailsModal, setOpenDetailsModal] = useState(false);
   const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState(null);
   const serverURL = ""; 
@@ -45,52 +45,41 @@ function WorkoutPage() {
   const loadWorkouts = async ({ email }) => {
     try {
       const res = await callApiGetWorkouts(email);
-      // Assuming the response directly contains the workouts array
-      // Adjust this logic based on your actual API response structure
-      // console.log("callApiGetWorkouts returned: ", res)
+      
       var parsed = JSON.parse(res.express);
       console.log("callApiGetWorkouts parsed: ", parsed);
       const workoutsData = parsed.map(workout => ({
         ...workout,
-        name: workout.workout_title, // Map workout_title to name
-        exercises: JSON.parse(workout.exercises) // Parse the stringified exercises JSON
+        name: workout.workout_title, 
+        exercises: JSON.parse(workout.exercises) 
       }));
       setWorkouts(workoutsData);
-      // parsed.forEach(workout => {
-      //   workout.exercises = JSON.parse(workout.exercises);
-      // });
-      // setWorkouts(parsed || []);
+      
       console.log("callApiGetWorkouts setWorkouts: ", workouts);
       
 
-      // setWorkouts(res.workouts || []);
-      // console.log(res.workouts);
+      
+      
     } catch (error) {
       console.error("Failed to load workouts:", error.message);
     }
   };
 
-  // const handleAddWorkout = () => {
-  //   if (workoutName.trim() !== '') {
-  //     setWorkouts([...workouts, { name: workoutName, exercises: [] }]);
-  //     setWorkoutName('');
-  //     setOpenAddWorkoutModal(false);
-  //   }
-  // };
+  
   const handleAddWorkout = async () => {
     const url = `${serverURL}/api/workout/add`
     if (workoutName.trim() !== '') {
       try {
-        // Assuming 'okay@okay.com' is the user's email. Replace it with the actual user email.
+        
         const email = 'okay@okay.com';
         const response = await fetch(url, {
-          method: "PUT", // Use PUT as defined in your server.js
+          method: "PUT", 
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title: workoutName, // Use the state variable workoutName for the workout title
-            email: email, // Use the email variable or directly insert the email string here
+            title: workoutName, 
+            email: email,
           })
         });
   
@@ -98,13 +87,13 @@ function WorkoutPage() {
           throw new Error('Failed to add new workout');
         }
   
-        // If the workout was added successfully, you might want to reload workouts
+        
         await loadWorkouts({ email });
         console.log('New workout added successfully');
         toast.success('Workout added successfully!');
 
   
-        // Reset state and close modal
+        
         setWorkoutName('');
         setOpenAddWorkoutModal(false);
       } catch (error) {
@@ -139,11 +128,7 @@ function WorkoutPage() {
     }
   };
 
-  // const handleDeleteWorkout = (index) => {
-  //   const updatedWorkouts = [...workouts];
-  //   updatedWorkouts.splice(index, 1);
-  //   setWorkouts(updatedWorkouts);
-  // };
+
 
   const handleOpenDetailsModal = (index) => {
     setSelectedWorkoutIndex(index);
@@ -155,14 +140,6 @@ function WorkoutPage() {
     setSelectedWorkoutIndex(null);
   };
 
-  // const handleAddExerciseToWorkout = (exercise) => {
-  //   const updatedWorkouts = [...workouts];
-  //   const currentWorkout = updatedWorkouts[selectedWorkoutIndex];
-  //   if (currentWorkout) {
-  //     currentWorkout.exercises.push(exercise);
-  //     setWorkouts(updatedWorkouts);
-  //   }
-  // };
 
   const handleAddExerciseToWorkout = async (exercise) => {
     try {
@@ -172,7 +149,7 @@ function WorkoutPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: 'okay@okay.com', // Replace with the actual user's email
+          email: 'okay@okay.com', 
           workoutID: exercise.workoutID,
           exerciseName: exercise.name,
           weight: exercise.weight,
@@ -185,7 +162,7 @@ function WorkoutPage() {
         throw new Error('Failed to add new exercise');
       }
   
-      // Reload or update the workout details to reflect the new exercise
+      
       console.log('New exercise added successfully');
       toast.success('Exercise added successfully!');
       await loadWorkouts({ email: 'okay@okay.com' });
@@ -209,7 +186,7 @@ function WorkoutPage() {
           <TableBody>
             {workouts.map((workout, index) => (
               <TableRow key={index}>
-                {/* {console.log(workout.workoutID)} */}
+                {}
                 <TableCell>
                   <Button onClick={() => handleOpenDetailsModal(index)}>{workout.name}</Button>
                 </TableCell>
@@ -228,7 +205,7 @@ function WorkoutPage() {
           workout={workouts[selectedWorkoutIndex]}
           open={openDetailsModal}
           onClose={handleCloseDetailsModal}
-          // onAddExercise={handleAddExerciseToWorkout}
+          
           onAddExercise={handleAddExerciseToWorkout}
         />
       )}
@@ -264,21 +241,17 @@ function WorkoutDetailsModal({ workout, open, onClose, onAddExercise }) {
     setNewExercise(prevState => ({ ...prevState, [name]: value }));
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   onAddExercise(newExercise);
-  //   setNewExercise({ name: '', weight: '', reps: '', sets: '' }); // Reset form
-  // };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Assuming handleAddExerciseToWorkout expects an object with exercise details
+    
     onAddExercise({
       name: newExercise.name,
       weight: newExercise.weight,
       reps: newExercise.reps,
       sets: newExercise.sets,
-      workoutID: workout.workoutID // Ensure you have workoutID available in your workout object
+      workoutID: workout.workoutID 
     });
     setNewExercise({ name: '', weight: '', reps: '', sets: '' }); // Reset form
   };
@@ -307,7 +280,7 @@ function WorkoutDetailsModal({ workout, open, onClose, onAddExercise }) {
                   <TableCell>{exercise.reps}</TableCell>
                   <TableCell>{exercise.sets}</TableCell>
                   <TableCell>
-                    {/* Potential future spot for a delete exercise button */}
+                    {}
                   </TableCell>
                 </TableRow>
               ))}
