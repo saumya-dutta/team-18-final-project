@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: Managed to sort out most of the API issues and thought about adding some new features to the UI based on our latest ideas.
+What was in my way: Still facing a few small bugs with the API integration that need to be ironed out, regarding entering food and putting calories and macros automatically.
+What will I do today: implementing consistent formatting throughout the UI
+
+Athena: 
+
+What did I do yesterday: helped finding external APIs for calories and macros that we need for food function. Updated the UI to make it more user-friendly
+What was in my way: Encountered some challenges with database that took longer to fix than expected
+What will I do today: I'll twork on the best design for entering calories and macros with least amount of friction and make it coherent with adding fitness goals function.
+
+Doruk:
+
+What did I do yesterday: tried to fix the server issues we were having and connected with SQL
+What was in my way: I had to learn about pulling data from database and showing it in the applicable format in the frontend.
+What will I do today: I'll work on displaying foods to enter in a nice format and recoding them to our mysql db.

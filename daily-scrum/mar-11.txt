@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: Over the weekend, I finished the search exercise and sleep component but I need to connect it to the backend
+What was in my way: no blockers but going to discuss with the team how we will add this to the backend
+What will I do today: working on the backend and creating appropriate endpoints for my features
+
+Athena: 
+
+What did I do yesterday: 
+What was in my way: 
+What will I do today: 
+
+Doruk:
+
+What did I do yesterday: 
+What was in my way: 
+What will I do today: 

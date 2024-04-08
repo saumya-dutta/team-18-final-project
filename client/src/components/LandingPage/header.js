@@ -9,15 +9,12 @@ import RunCircleIcon from '@mui/icons-material/RunCircle';
 import SignIn from '../SignInAndSignUp/index';
 import Drawer from '@mui/material/Drawer';
 
-
-
-
 export default function LandingPage() {
-    const [openLogin, setOpenLogin] = React.useState(false);
+  const [openLogin, setOpenLogin] = React.useState(false);
 
-    const toggleDrawer = (newOpen) => () => {
-        setOpenLogin(newOpen);
-    };
+  const toggleDrawer = newOpen => () => {
+    setOpenLogin(newOpen);
+  };
 
     return (
         <Box sx={{ flexGrow: 1 }}>

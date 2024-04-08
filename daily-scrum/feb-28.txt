@@ -1,0 +1,20 @@
+Saumya:
+
+What did I do yesterday: Participated in a brainstorming session to structure the backend of our fitness web app project,
+searched for suitable external APIs, and contributed to UI improvements.
+What was in my way: Faced challenges in backend coding which slowedd the planned progress.
+What will I do today: Focus on resolving backend coding issues and continue refining the UI based on the feedback from the team.
+
+Athena: 
+
+What did I do yesterday: Engaged in a brainstorming session for backend structure, looked into external APIs and databases,
+and helped make the UI look nicer by eliminating unnecessary lines of code
+What was in my way: Faced challenges in backend coding which impeded the planned progress
+What will I do today: Focus on resolving backend coding issues and continue refining the UI based on the feedback from the team
+
+Doruk:
+
+What did I do yesterday: Contributed to brainstorming for the backend structure, researched external APIs,
+and was involved in refactoring more code to improve the project's efficiency
+What was in my way: Struggled with database and server connections
+What will I do today: Dedicate efforts to overcome backend coding difficulties and work on enhancing the UI aesthetics and functionality

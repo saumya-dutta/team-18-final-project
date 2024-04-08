@@ -1,0 +1,17 @@
+Saumya:
+
+What did I do yesterday: Worked on part A of Lab 6
+What was in my way: Had an error configuring the cypress environment supportFile but was able to fix that by adding this in the cypress config file: `supportFile: false`
+What will I do today: Will continue to work on finishing part B of Lab 6 due Friday and working on new features
+
+Athena: 
+
+What did I do yesterday: Continued working on the Lab 5 Repo and exercises as a part b of Lab 6
+What was in my way: no blockers
+What will I do today: continue to work on finishing part B of Lab 6 with the team and submit the lab on Friday
+
+Doruk:
+
+What did I do yesterday: brainstormed new features and helped the team with part A and exercises of Lab 6
+What was in my way: no blockers
+What will I do today: continue working on lab exercises due friday 
