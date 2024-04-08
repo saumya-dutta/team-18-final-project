@@ -15,6 +15,7 @@ import RunCircleIcon from '@mui/icons-material/RunCircle';
 import SignIn from '../SignInAndSignUp';
 import { withFirebase } from '../Firebase';
 import Home from '../Home/index.js'
+import Water from '../Water/index.js'
 // import { useNavigate } from 'react-router-dom';
 
 
@@ -41,7 +42,8 @@ function App() {
     <div>
       <List>
         {[
-          // { text: 'Food', path: '/Home' },
+          { text: 'Home', path: '/Home' },
+          { text: 'Water', path: '/Water' },
           { text: 'Food', path: '/Food' },
           { text: 'Activity', path: '/Activity' },
           { text: 'Profile', path: '/user-profile' }
@@ -73,9 +75,10 @@ function App() {
                 </IconButton>
                 <div style={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
                   {[
-                    // { text: 'Home', path: '/Home' },
+                    { text: 'Home', path: '/Home' },
                     { text: 'Food', path: '/Food' },
                     { text: 'Activity', path: '/Activity' },
+                    { text: 'Water', path: '/Water' },
                     { text: 'Settings', path: '/user-profile' }
                   ].map((item) => (
                     <Button key={item.text} component={Link} to={item.path}
@@ -114,8 +117,8 @@ function App() {
           <Routes>
             {isSignedIn ? (
               <>
-                <Route path="/" element={<Home />} />
-                {/* <Route path="/Home" element={< />} /> */}
+                <Route path="/Home" element={<Home />} />
+                <Route path="/Water" element={<Water />} />
                 <Route path="/Food" element={<Food />} />
                 <Route path="/Activity" element={<FitnessGoals />} />
                 <Route path="/user-profile" element={<UserProfileForm />} />
@@ -123,7 +126,7 @@ function App() {
             ) : (
               <>
                 <Route path="*" element={<HomePage />} />
-                <Route path="/auth" element={<SignIn />} /> 
+                <Route path="/auth" element={<SignIn />} />
               </>
             )}
           </Routes>
