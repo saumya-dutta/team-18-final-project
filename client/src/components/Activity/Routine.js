@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function WorkoutPage() {
   const [workouts, setWorkouts] = useState([]);
@@ -99,6 +101,8 @@ function WorkoutPage() {
         // If the workout was added successfully, you might want to reload workouts
         await loadWorkouts({ email });
         console.log('New workout added successfully');
+        toast.success('Workout added successfully!');
+
   
         // Reset state and close modal
         setWorkoutName('');
@@ -126,8 +130,9 @@ function WorkoutPage() {
       }
   
     
-  
+      
       console.log('Exercise deleted successfully');
+      toast.success('Workout deleted successfully!');
       loadWorkouts( {email: 'okay@okay.com'} );
     } catch (error) {
       console.error("Failed to delete exercise:", error.message);
@@ -182,6 +187,7 @@ function WorkoutPage() {
   
       // Reload or update the workout details to reflect the new exercise
       console.log('New exercise added successfully');
+      toast.success('Exercise added successfully!');
       await loadWorkouts({ email: 'okay@okay.com' });
     } catch (error) {
       console.error("Failed to add new exercise:", error.message);
@@ -190,6 +196,7 @@ function WorkoutPage() {
 
   return (
     <div>
+      <ToastContainer />
       <Button variant="contained" onClick={() => setOpenAddWorkoutModal(true)}>Add Workout</Button>
       <TableContainer component={Paper}>
         <Table>

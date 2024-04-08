@@ -151,16 +151,14 @@ export default function App() {
                         <Box sx={{ mb: 1 }}>
                             <Typography level="title-md">Make Routines</Typography>
                             <Typography level="body-sm">
-                                Add exercises to your routine!
+                                Add exercises to your routine! Click the blue routines to add exercises to your routine.
                             </Typography>
                         </Box>
                         <Divider />
                         <WorkoutRoutinePage/>
                     </Card>
                 )}
-                {/* {activeTab === 2 && (
-                    <SleepPage/>
-                )} */}
+                
                 
             </Stack>
         </Box>
