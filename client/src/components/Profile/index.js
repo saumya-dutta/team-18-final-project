@@ -31,22 +31,26 @@ import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MenuItem from '@mui/joy/MenuItem';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-// import DropZone from './DropZone';
-// import FileUpload from './FileUpload';
+
+
 import CountrySelector from './CountrySelector';
-// import EditorToolbar from './EditorToolbar';
+
 import Profile from './profile';
+import Plan from './userPlan';
 
 export default function ProfilePage() {
   const [selectedGoal, setSelectedGoal] = React.useState("");
   const [activeTab, setActiveTab] = React.useState(0);
+  const navigate = useNavigate();
+
 
   return (
     <Box sx={{ flex: 1, width: '100%' }}>
       <Box
         sx={{
-          // position: 'sticky',
+          
           top: { sm: -100, md: -110 },
           bgcolor: 'background.body',
           zIndex: 9995,
@@ -65,7 +69,7 @@ export default function ProfilePage() {
               href="#some-link"
               aria-label="Home"
             >
-              <HomeRoundedIcon />
+              <HomeRoundedIcon onClick={() => navigate('/')}/>
             </Link>
             <Typography color="primary" fontWeight={500} fontSize={12}>
               Settings
@@ -109,9 +113,6 @@ export default function ProfilePage() {
             <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={1}>
               Plan
             </Tab>
-            <Tab sx={{ borderRadius: '6px 6px 0 0' }} indicatorInset value={2}>
-              Billing
-            </Tab>
           </TabList>
         </Tabs>
       </Box>
@@ -127,6 +128,9 @@ export default function ProfilePage() {
       >
         {activeTab === 0 && (
           <Profile/>
+        )}
+        {activeTab === 1 && (
+          <Plan/>
         )}
         
         

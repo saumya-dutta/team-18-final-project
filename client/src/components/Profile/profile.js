@@ -31,13 +31,129 @@ import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRound
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MenuItem from '@mui/joy/MenuItem';
 
+import Goals from './goals'
+
 // import DropZone from './DropZone';
 // import FileUpload from './FileUpload';
 import CountrySelector from './CountrySelector';
 // import EditorToolbar from './EditorToolbar';
+// import callApiLoadUserSettings from './utils/callApiLoadUserSettings';
+const serverURL = ""
+
 
 export default function Profile() {
   const [selectedGoal, setSelectedGoal] = React.useState("");
+  const [userData, setUserData] = React.useState({
+    userID: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    weight: '',
+    height: '',
+    country: '',
+    age: '',
+    goal: '',
+    goal_description: ''
+  });
+  const [isModified, setIsModified] = React.useState(false);
+
+
+  React.useEffect(() => {
+    loadUserSettings({ email: 'okay@okay.com' });
+  }, [])
+
+  const serverURL = ""
+
+  const callApiLoadUserSettings = async (serverURL, email) => {
+    const url = serverURL + "/api/user/email";
+
+    console.log(url);
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+
+    if (!response.ok) {
+      console.log(response);
+      throw new Error('Failed to fetch user settings');
+    }
+
+    try {
+      const body = await response.json();
+      console.log("User settings: ", body);
+      return body;
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      throw new Error('Failed to parse server response');
+    }
+  }
+
+  
+
+
+  const loadUserSettings = ({ email }) => {
+    callApiLoadUserSettings(serverURL, email)
+      .then(res => {
+        console.log("callApiLoadUserSettings returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiLoadUserSettings parsed: ", parsed);
+        setUserData(parsed[0]);
+        console.log(userData);
+      });
+  }
+
+  const mapAgeToOption = (age) => {
+    if (age >= 0 && age <= 19) {
+      return '1'; // Corresponds to 'Youth'
+    } else if (age >= 17 && age <= 30) {
+      return '2'; // Corresponds to 'Young Adult'
+    } else if (age >= 31 && age <= 45) {
+      return '3'; // Corresponds to 'Middle Aged Adults'
+    } else {
+      return '4'; // Corresponds to 'Old Adults'
+    }
+  };
+
+  
+  // Function to handle changes in form fields
+  const handleInputChange = (e, fieldName) => {
+    const { value } = e.target;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [fieldName]: value
+    }));
+    setIsModified(true);
+  };
+
+    // Function to handle saving user data
+    const handleSave = async () => {
+      if (isModified) {
+        try {
+          const response = await fetch(`${serverURL}/api/user/update`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+          });
+          if (response.ok) {
+            // Data saved successfully
+            setIsModified(false);
+            console.log('User data updated successfully');
+          } else {
+            // Error while saving data
+            console.error('Failed to update user data');
+          }
+        } catch (error) {
+          console.error('Error updating user data:', error);
+        }
+      }
+    };
 
   return (
     <Stack
@@ -54,7 +170,7 @@ export default function Profile() {
         <Box sx={{ mb: 1 }}>
           <Typography level="title-md">Personal info</Typography>
           <Typography level="body-sm">
-            Customize how your profile information will apper to the networks.
+            Customize your profile here!
           </Typography>
         </Box>
         <Divider />
@@ -69,14 +185,15 @@ export default function Profile() {
               maxHeight={200}
               sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
             >
+              
               <img
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                src="https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/exercise-circle-orange-512.png"
+                srcSet="https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/exercise-circle-orange-512.png"
                 loading="lazy"
                 alt=""
               />
             </AspectRatio>
-            <IconButton
+            {/* <IconButton
               aria-label="upload new picture"
               size="sm"
               variant="outlined"
@@ -90,58 +207,61 @@ export default function Profile() {
                 top: 170,
                 boxShadow: 'sm',
               }}
-            >
-              <EditRoundedIcon />
-            </IconButton>
+            > */}
+              {/* <EditRoundedIcon /> */}
+            {/* </IconButton> */}
           </Stack>
           <Stack spacing={2} sx={{ flexGrow: 1 }}>
             <Stack spacing={1}>
               <FormLabel>Name</FormLabel>
               <FormControl
                 sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
-              >
-                <Input size="sm" placeholder="First name" />
-                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} />
+              > 
+                <FormControl>
+                <Input size="sm" placeholder="First name" value={userData.first_name} disabled/>
+                </FormControl>
+                <FormControl>
+                <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} value={userData.last_name} disabled/>
+                </FormControl>
               </FormControl>
             </Stack>
+            <FormControl sx={{ flexGrow: 1 }}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                size="sm"
+                type="email"
+                startDecorator={<EmailRoundedIcon />}
+                placeholder="email"
+                value={userData.email}
+                // defaultValue="okay@okay.com"
+                sx={{ flexGrow: 1 }}
+                disabled
+              />
+            </FormControl>
             <Stack direction="row" spacing={2}>
               <FormControl>
-                <FormLabel>Role</FormLabel>
-                <Input size="sm" defaultValue="UI Developer" />
-              </FormControl>
-              <FormControl sx={{ flexGrow: 1 }}>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  size="sm"
-                  type="email"
-                  startDecorator={<EmailRoundedIcon />}
-                  placeholder="email"
-                  defaultValue="siriwatk@test.com"
-                  sx={{ flexGrow: 1 }}
-                />
-              </FormControl>
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <FormControl>
-                <FormLabel>Weight</FormLabel>
+                <FormLabel>Weight (kg)</FormLabel>
                 <Input size="sm"
-                // defaultValue="UI Developer" 
+                  value={userData.weight}
+                  onChange={(e) => handleInputChange(e, 'weight')}
                 />
               </FormControl>
               <FormControl sx={{ flexGrow: 1 }}>
-                <FormLabel>Height</FormLabel>
+                <FormLabel>Height (cm) </FormLabel>
                 <Input
                   size="sm"
-                  type="email"
                   // startDecorator={<EmailRoundedIcon />}
-                  placeholder="email"
-                  // defaultValue="siriwatk@test.com"
+                  // placeholder="email"
+                  // defaultValue="48"
+                  value={userData.height}
+                  onChange={(e) => handleInputChange(e, 'height')}
                   sx={{ flexGrow: 1 }}
+
                 />
               </FormControl>
             </Stack>
             <div>
-              <CountrySelector />
+              <CountrySelector userCountry={userData.country}/>
             </div>
             <div>
               <FormControl sx={{ display: { sm: 'contents' } }}>
@@ -149,7 +269,7 @@ export default function Profile() {
                 <Select
                   size="sm"
                   startDecorator={<PersonSearchIcon />}
-                  defaultValue="1"
+                  value={mapAgeToOption(userData.age)}
                 >
                   <Option value="1">
                     Youth{' '}
@@ -163,13 +283,13 @@ export default function Profile() {
                       — (17 - 30)
                     </Typography>
                   </Option>
-                  <Option value="1">
+                  <Option value="3">
                     Middle Aged Adults{' '}
                     <Typography textColor="text.tertiary" ml={0.5}>
                       — (31 - 45)
                     </Typography>
                   </Option>
-                  <Option value="1">
+                  <Option value="4">
                     Old Adults{' '}
                     <Typography textColor="text.tertiary" ml={0.5}>
                       — Above 45
@@ -185,153 +305,22 @@ export default function Profile() {
           spacing={2}
           sx={{ display: { xs: 'flex', md: 'none' }, my: 1 }}
         >
-          <Stack direction="row" spacing={2}>
-            <Stack direction="column" spacing={1}>
-              <AspectRatio
-                ratio="1"
-                maxHeight={108}
-                sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                  loading="lazy"
-                  alt=""
-                />
-              </AspectRatio>
-              <IconButton
-                aria-label="upload new picture"
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                sx={{
-                  bgcolor: 'background.body',
-                  position: 'absolute',
-                  zIndex: 2,
-                  borderRadius: '50%',
-                  left: 85,
-                  top: 180,
-                  boxShadow: 'sm',
-                }}
-              >
-                <EditRoundedIcon />
-              </IconButton>
-            </Stack>
-            <Stack spacing={1} sx={{ flexGrow: 1 }}>
-              <FormLabel>Name</FormLabel>
-              <FormControl
-                sx={{
-                  display: {
-                    sm: 'flex-column',
-                    md: 'flex-row',
-                  },
-                  gap: 2,
-                }}
-              >
-                <Input size="sm" placeholder="First name" />
-                <Input size="sm" placeholder="Last name" />
-              </FormControl>
-            </Stack>
-          </Stack>
-          <FormControl>
-            <FormLabel>Role</FormLabel>
-            <Input size="sm" defaultValue="UI Developer" />
-          </FormControl>
-          <FormControl sx={{ flexGrow: 1 }}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              size="sm"
-              type="email"
-              startDecorator={<EmailRoundedIcon />}
-              placeholder="email"
-              defaultValue="siriwatk@test.com"
-              sx={{ flexGrow: 1 }}
-            />
-          </FormControl>
-          {/* <div>
-              <CountrySelector />
-            </div> */}
-          <div>
-            <FormControl sx={{ display: { sm: 'contents' } }}>
-              <FormLabel>Timezone</FormLabel>
-              <Select
-                size="sm"
-                startDecorator={<AccessTimeFilledRoundedIcon />}
-                defaultValue="1"
-              >
-                <Option value="1">
-                  Indochina Time (Bangkok){' '}
-                  <Typography textColor="text.tertiary" ml={0.5}>
-                    — GMT+07:00
-                  </Typography>
-                </Option>
-                <Option value="2">
-                  Indochina Time (Ho Chi Minh City){' '}
-                  <Typography textColor="text.tertiary" ml={0.5}>
-                    — GMT+07:00
-                  </Typography>
-                </Option>
-              </Select>
-            </FormControl>
-          </div>
-        </Stack>
-        <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-          <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-            <Button size="sm" variant="outlined" color="neutral">
-              Cancel
-            </Button>
-            <Button size="sm" variant="solid">
-              Save
-            </Button>
-          </CardActions>
-        </CardOverflow>
-      </Card>
-      <Card>
-        <Box sx={{ mb: 1 }}>
-          <Typography level="title-md">Edit your Goals!</Typography>
-          <Typography level="body-sm">
-            Change or add your goals
-          </Typography>
-        </Box>
-        <Divider />
-        <Stack spacing={2} sx={{ my: 1 }}>
 
-          <FormControl size="sm">
-            <FormLabel>Choose your goal</FormLabel>
-            <Select
-              // value={selectedGoal}
-              onChange={(e) => setSelectedGoal(e.target.value)}
-            >
-              <MenuItem value="">None</MenuItem>
-              <MenuItem value="Weight Loss">Weight Loss</MenuItem>
-              <MenuItem value="Muscle Gain">Muscle Gain</MenuItem>
-              <MenuItem value="Endurance Training">Endurance Training</MenuItem>
-              <MenuItem value="Stretch more">Stretch more</MenuItem>
-              <MenuItem value="Run a 5K">Run a 5K</MenuItem>
-              <MenuItem value="Mobility">Mobility</MenuItem>
-            </Select>
-          </FormControl>
-          <Textarea
-            size="sm"
-            minRows={2}
-            sx={{ mt: 1.5 }}
-            defaultValue="Details"
-          />
-          <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
-            275 characters left
-          </FormHelperText>
+
         </Stack>
         <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
           <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-            <Button size="sm" variant="outlined" color="neutral">
+            {/* <Button size="sm" variant="outlined" color="neutral">
               Cancel
-            </Button>
-            <Button size="sm" variant="solid">
+            </Button> */}
+            <Button size="sm" variant="solid" onClick={handleSave}>
               Save
             </Button>
           </CardActions>
         </CardOverflow>
       </Card>
+
+      <Goals userGoal={userData.goal} userGoalDesc={userData.goal_description} userID={userData.userID}/>
 
     </Stack>
 

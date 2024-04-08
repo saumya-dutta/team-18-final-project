@@ -7,7 +7,7 @@ import ExerciseCard from './ExerciseCard';
 
 const Exercises = (
     { exercises, setExercises, 
-        // bodyPart 
+        
     }
     ) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,25 +17,20 @@ const Exercises = (
     const fetchExerciseData = async () => {
       let exercisesData = [];
 
-    //   if (bodyPart === 'all') {
-    //     exercisesData = await fetchData(
-    //       'https://exercisedb.p.rapidapi.com/exercises',
-    //       exerciseOptions
-    //     );
-    //   } else {
+
         exercisesData = await fetchData(
           `https://exercisedb.p.rapidapi.com/exercises?limit=900`,
           exerciseOptions
         );
         console.log(exercisesData);
-    //   }
+    
 
       setExercises(exercisesData);
     };
 
     fetchExerciseData();
   }, [
-    // bodyPart, 
+    
     setExercises]);
 
   useEffect(() => {
@@ -60,27 +55,22 @@ const Exercises = (
   return (
     <Box
       id="exercises"
-    //   sx={{ mt: { lg: '110px' } }}
-    //   mt="50px"
-    //   p="20px"
+
     >
-      {/* <Typography variant="h3" mb="46px">
-        Showing Results
-      </Typography> */}
+      {}
       <Stack
         direction="row"
-        // sx={{ gap: { lg: '110px', xs: '50px' } }}
+        
         spacing={1}
         flexWrap="wrap"
-        // justifyContent="left"
+        
       >
         {currentExercises.map((exercise) => (
           <ExerciseCard key={exercise.id} exercise={exercise} />
         ))}
       </Stack>
       <Stack 
-    //   mt="100px" 
-    //   alignItems="center"
+
       >
         {exercises.length > exercisesPerPage && (
           <Pagination

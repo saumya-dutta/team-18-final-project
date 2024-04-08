@@ -8,7 +8,24 @@ import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import Typography from '@mui/joy/Typography';
 
 export default function CountrySelector(props) {
-  const { sx, ...other } = props;
+  const { sx, userCountry, ...other } = props;
+  const [selectedCountry, setSelectedCountry] = React.useState(null);
+
+  React.useEffect(() => {
+    if (userCountry) {
+      const country = getCountryByCode(userCountry);
+      if (country) {
+        setSelectedCountry(country);
+      }
+    }
+  }, [userCountry]);
+  // to-do: set the country based on the data we recieve from profile.js [update: working]
+  const getCountryByCode = (code) => {
+    return countries.find((country) => country.code === code);
+  };
+
+  // to-do: add update country functionality
+
   return (
     <FormControl
       {...other}
@@ -19,7 +36,7 @@ export default function CountrySelector(props) {
         size="sm"
         autoHighlight
         isOptionEqualToValue={(option, value) => option.code === value.code}
-        defaultValue={{ code: 'TH', label: 'Thailand', phone: '66' }}
+        value={selectedCountry}
         options={countries}
         renderOption={(optionProps, option) => (
           <AutocompleteOption {...optionProps}>

@@ -16,7 +16,7 @@ export default function Landing() {
   const scrollToBottom = () => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
-      behavior: 'smooth', // This enables smooth scrolling
+      behavior: 'smooth', 
     });
   };
 
