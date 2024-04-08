@@ -120,7 +120,8 @@ app.post('/api/user/workouts/', (req, res) => {
   // SQL query to retrieve workouts and exercises concatenated into one column
   const sql = `
   SELECT w.title AS workout_title,
-  JSON_ARRAYAGG(JSON_OBJECT('name', e.exerciseName, 'weight', e.weight, 'reps', e.reps, 'sets', e.sets)) AS exercises
+  JSON_ARRAYAGG(JSON_OBJECT('name', e.exerciseName, 'weight', e.weight, 'reps', e.reps, 'sets', e.sets)) AS exercises,
+  w.workoutID
   FROM s39dutta.user u
   JOIN s39dutta.workouts w ON u.userID = w.userID
   LEFT JOIN s39dutta.exercises e ON w.workoutID = e.workoutID
@@ -140,10 +141,95 @@ app.post('/api/user/workouts/', (req, res) => {
     let obj = JSON.parse(string);
     res.send({ express: string });
 
-    // Send the response with the workouts and exercises
-    // res.json(results);
+    
   });
   connection.end();
+});
+
+// Endpoint to delete a workout and its associated exercises using a PUT request (does not work)
+app.delete('/api/workout/delete', (req, res) => {
+  const connection = mysql.createConnection(config);
+  const workoutID = req.body.workoutID;
+
+  const deleteQuery = `
+    DELETE workouts, exercises
+    FROM workouts
+    LEFT JOIN exercises ON workouts.workoutID = exercises.workoutID
+    WHERE workouts.workoutID = ?
+  `;
+
+  connection.query(deleteQuery, [workoutID], (err, results) => {
+    if (err) {
+      console.error('Error deleting workout and exercises:', err);
+      res.status(500).send('Error deleting workout and exercises');
+      return;
+    }
+
+    console.log('Workout and associated exercises deleted successfully');
+    res.sendStatus(200);
+  });
+
+  connection.end();
+});
+
+//endpoint to add a new workout
+app.put('/api/workout/add', (req, res) => {
+  const { title, email } = req.body;
+  const query = `
+    INSERT INTO s39dutta.workouts (title, userID)
+    SELECT ?, userID
+    FROM s39dutta.user
+    WHERE email = ?
+  `;
+
+  const connection = mysql.createConnection(config);
+
+  connection.query(query, [title, email], (err, results) => {
+    if (err) {
+      console.error('Error adding workout:', err);
+      res.status(500).json({ error: 'Error adding workout' });
+      connection.end();
+      return;
+    }
+
+    console.log('Workout added successfully');
+    res.status(201).json({ message: 'good' });
+    connection.end();
+  });
+});
+
+// endpoint to add exercises to the database
+app.put('/api/exercise/add', (req, res) => {
+  const { email, workoutID, exerciseName, weight, reps, sets } = req.body;
+
+  // Validate required fields
+  if (!email || !workoutID || !exerciseName ) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const connection = mysql.createConnection(config);
+
+  // Query to insert exercise
+  const query = `
+    INSERT INTO s39dutta.exercises (workoutID, exerciseName, weight, reps, sets)
+    VALUES (
+      (SELECT workoutID FROM s39dutta.workouts WHERE userID = (SELECT userID FROM s39dutta.user WHERE email = ?) AND workoutID = ?), 
+      ?, ?, ?, ?
+    )
+  `;
+
+  connection.query(query, [email, workoutID, exerciseName, weight, reps, sets], (err, results) => {
+    if (err) {
+      console.error('Error adding exercise:', err);
+      res.status(500).json({ error: 'Error adding exercise' });
+      connection.end();
+      return;
+    }
+
+    console.log('Exercise added successfully');
+    res.status(201).json({ exerciseID: results.insertId });
+    connection.end();
+  });
 });
 
 
