@@ -1,5 +1,13 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-7f7980b617ed060a017424585567c406b6ee15c891e84e1186181d67ecf80aa0.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=13369247)
-# MSci 342 - Project template
+
+# MSci 342 - Team 18 Final Project 
+
+## Welcome to our fitness app!
+-  To sign in, use the following credentials
+```
+email: okay@okay.com
+password: 123456
+```
 
 ## This repo contains a template project for starting your development. It is based on the sample assignment solution from MSci 245.
 
