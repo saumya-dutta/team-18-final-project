@@ -5,10 +5,35 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Input from '@mui/joy/Input';
+import Button from '@mui/joy/Button';
 import Header from '../LandingPage/header.js';
 import Landing from './landing.js';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function HomePage() {
+  const [userQuestion, setUserQuestion] = React.useState('');
+
+  const handleQuestionChange = (event) => {
+    setUserQuestion(event.target.value);
+  };
+
+  const handleSubmitQuestion = (event) => {
+    event.preventDefault();
+    // Here, you would typically send the question to the developers, e.g., via an API call
+    console.log(userQuestion);
+    // Reset the question input after submission for better UX
+    setUserQuestion('');
+    // Optionally, show a confirmation message to the user
+    toast.success('Your question has been submitted. Thank you!');
+  };
+
   const plans = [
     {
       title: 'Basic Plan',
@@ -27,6 +52,21 @@ export default function HomePage() {
       description:
         'Real-time metrics of all features. Suggestions of workouts and recipes based on your past activity.',
     },
+  ];
+
+  const faqs = [
+    {
+      question: 'How do I sign up?',
+      answer: 'You can sign up by clicking the "Sign Up" button on the top right corner of the page.',
+    },
+    {
+      question: 'Can I change my plan later?',
+      answer: 'Yes, you can change your plan at any time through your account settings.',
+    },
+    {
+      question: 'What is included in the Ultimate Plan?',
+      answer: 'The Ultimate Plan includes all features from the Basic and Premium plans, plus real-time metrics, workout and recipe suggestions.',
+    }
   ];
 
   return (
@@ -59,7 +99,7 @@ export default function HomePage() {
             ))}
           </Grid>
         </Box>
-        <Box my={4}>
+        <Box my={10}>
           <Typography variant="h4" align="center" gutterBottom>
             Features
           </Typography>
@@ -104,6 +144,59 @@ export default function HomePage() {
               </Card>
             </Grid>
           </Grid>
+        </Box>
+      </Container>
+      <Container sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
+      <Box my={4}>
+          <Typography variant="h4" align="center" gutterBottom>
+            Frequently Asked Questions by Users! (FAQ)
+          </Typography>
+          {faqs.map((faq, index) => (
+            <Accordion key={index}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls={`panel${index}a-content`}
+                id={`panel${index}a-header`}
+              >
+                <Typography>{faq.question}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  {faq.answer}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Box>
+        </Container>
+        <ToastContainer />
+        <Container sx={{ my: 4, px: { xs: 2, sm: 3, md: 4 } }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Have a Question for the Developers?
+        </Typography>
+        <Box
+          component="form"
+          sx={{
+            mt: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+          onSubmit={handleSubmitQuestion}
+          noValidate
+          autoComplete="off"
+        >
+          <Input
+            label="Your Question"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={userQuestion}
+            onChange={handleQuestionChange}
+          />
+          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+            Submit Question
+          </Button>
         </Box>
       </Container>
     </div>

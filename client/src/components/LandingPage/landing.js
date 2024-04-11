@@ -27,11 +27,10 @@ export default function Landing() {
         fontWeight="xl"
         fontSize="clamp(1.875rem, 1.3636rem + 2.1818vw, 3rem)"
       >
-        Welcome to Fit-ify! Strength Training and Healhty eating all in one
+        Welcome to Fit-ify! Strength Training and Healthy eating all in one
       </Typography>
       <Typography fontSize="lg" textColor="text.secondary" lineHeight="lg">
-        A descriptive secondary text placeholder. Use it to explain your
-        business offer better.
+      Trim down or bulk up, run faster, or bike farther—however you work out, these top-rated workout apps help you keep your commitment to physical fitness.
       </Typography>
       <Box
         sx={{
@@ -92,7 +91,7 @@ export default function Landing() {
             4.9
           </Typography>
           <Typography textColor="text.secondary">
-            Rated by <b>5k</b> people on trustpilot.com
+            Rated by <b>5k</b> people on App Store and Google Play
           </Typography>
         </div>
         <div>
@@ -100,7 +99,7 @@ export default function Landing() {
             9.5k+
           </Typography>
           <Typography textColor="text.secondary">
-            Active users from the top world companies.
+            Active users from the 70+ countries
           </Typography>
         </div>
       </Box>
