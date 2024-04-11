@@ -15,6 +15,12 @@ export default function LandingPage() {
   const toggleDrawer = newOpen => () => {
     setOpenLogin(newOpen);
   };
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth', 
+    });
+  };
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -41,6 +47,7 @@ export default function LandingPage() {
                                 marginRight: 5,
                             }
                         }
+                        onClick={scrollToBottom}
                     > Contact Us </Button>
                     <Button
                         variant="outlined"
@@ -51,6 +58,7 @@ export default function LandingPage() {
                                 marginRight: 5,
                             }
                         }
+                        onClick={scrollToBottom}
                     > Pricing </Button>
                     <Button
                         variant="contained"

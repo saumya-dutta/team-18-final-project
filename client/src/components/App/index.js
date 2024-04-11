@@ -80,17 +80,13 @@ function App() {
                     { text: 'Activity', path: '/Activity' },
                     { text: 'Water', path: '/Water' },
                     { text: 'Settings', path: '/user-profile' }
-                  ].map((item) => (
+                  ].map((item, index, array) => (
                     <Button key={item.text} component={Link} to={item.path}
                       variant="contained"
                       color="warning"
-                      sx={
-                        {
-                          // background: '#FFFFFF',
-                          // marginRight: 20,
-                          // marginLeft: 20,
-                        }
-                      }>
+                      sx={{
+                        mr: index !== array.length - 1 ? 2 : 0, // Add right margin to all buttons except the last one
+                      }}>
                       {item.text}
                     </Button>
                   ))}

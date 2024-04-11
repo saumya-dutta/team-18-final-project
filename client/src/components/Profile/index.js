@@ -69,7 +69,7 @@ export default function ProfilePage() {
               href="#some-link"
               aria-label="Home"
             >
-              <HomeRoundedIcon onClick={() => navigate('/')}/>
+              <HomeRoundedIcon onClick={() => navigate('/Home')}/>
             </Link>
             <Typography color="primary" fontWeight={500} fontSize={12}>
               Settings

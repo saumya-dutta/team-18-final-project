@@ -26,12 +26,20 @@ export default function HomePage() {
 
   const handleSubmitQuestion = (event) => {
     event.preventDefault();
-    // Here, you would typically send the question to the developers, e.g., via an API call
     console.log(userQuestion);
-    // Reset the question input after submission for better UX
     setUserQuestion('');
-    // Optionally, show a confirmation message to the user
     toast.success('Your question has been submitted. Thank you!');
+  };
+
+  const handleShare = () => {
+    navigator.clipboard.writeText("https://github.com/MSci-245-react/course-project-team-18")
+      .then(() => {
+        toast.success('Link copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy: ', err);
+        toast.error('Failed to copy the link.');
+      });
   };
 
   const plans = [
@@ -196,6 +204,25 @@ export default function HomePage() {
           />
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
             Submit Question
+          </Button>
+        </Box>
+      </Container>
+      <Container sx={{ my: 4, px: { xs: 2, sm: 3, md: 4 } }}>
+        <Box
+          sx={{
+            bgcolor: 'orange',
+            p: 2,
+            borderRadius: 1,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h6" component="div">
+            Share this app with your friends!
+          </Typography>
+          <Button variant="outlined" color="neutral" onClick={handleShare}>
+            Share
           </Button>
         </Box>
       </Container>

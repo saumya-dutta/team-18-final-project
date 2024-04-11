@@ -73,7 +73,7 @@ export default function FoodUI() {
       case 0:
         return (
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-            <Button variant="contained" onClick={() => setCurrentStep(1)}>Design My Meal</Button>
+            <Button variant="contained" color="primary" onClick={() => setCurrentStep(1)}>Design My Meal</Button>
           </Box>
         );
       case 1:
